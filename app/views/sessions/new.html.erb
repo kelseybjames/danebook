@@ -10,5 +10,10 @@
     <%= password_field_tag :password %>
   <% end %>
 
+  <%= label_tag do %>
+    Remember me?
+    <%= check_box_tag :remember_me %>
+  <% end %>
+
   <%= submit_tag "Log in" %>
 <% end %>
