@@ -1,5 +1,8 @@
 class User < ActiveRecord::Base
   before_create :generate_token
+
+  has_one :profile
+  
   has_secure_password
 
   validates :password,
@@ -17,5 +20,5 @@ class User < ActiveRecord::Base
     generate_token
     save!
   end
-  
+
 end
