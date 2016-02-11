@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   end
 
   resource :session, only: [:new, :create, :destroy]
+  
   root 'users#index'
   get 'login' => 'sessions#new'
   delete 'logout' => 'sessions#destroy'

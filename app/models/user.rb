@@ -1,13 +1,16 @@
 class User < ActiveRecord::Base
   before_create :generate_token
 
-  has_one :profile
-  
+  has_one :profile, dependent: :destroy
+
   has_secure_password
 
   validates :password,
             :length => { :in => 8..24 },
             :allow_nil => true
+
+  accepts_nested_attributes_for :profile,
+                     reject_if: :all_blank
 
   def generate_token
     begin

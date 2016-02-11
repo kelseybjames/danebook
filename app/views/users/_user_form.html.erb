@@ -10,5 +10,29 @@
   <%= user_fields.label :password_confirmation %>
   <%= user_fields.password_field :password_confirmation %>
   <br>
+  <%= user_fields.fields_for :profile, Profile.new do |profile_fields| %>
+    <%= profile_fields.label :first_name %>
+    <%= profile_fields.text_field :first_name %>
+    <br>
+    <%= profile_fields.label :last_name %>
+    <%= profile_fields.text_field :last_name %>
+    <br>
+    <%= profile_fields.label :day %>
+    <%= profile_fields.select :day, 1..31 %>
+
+    <%= profile_fields.label :month %>
+    <%= profile_fields.select :month, 1..12 %>
+
+    <%= profile_fields.label :year %>
+    <%= profile_fields.select :year, 1900..2000 %>
+    <br>
+    <%= profile_fields.label :gender %>
+    Male
+    <%= profile_fields.radio_button('gender', 'male') %>
+    Female
+    <%= profile_fields.radio_button('gender', 'female') %>
+    <br>
+  <% end %>
+  <br>
   <%= user_fields.submit %>
 <% end %>
