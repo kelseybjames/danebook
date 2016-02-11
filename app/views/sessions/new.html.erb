@@ -1,0 +1,14 @@
+<%= form_tag session_path do %>
+
+  <%= label_tag do %>
+    Email
+    <%= text_field_tag :email %>
+  <% end %>
+
+  <%= label_tag do %>
+    Password
+    <%= password_field_tag :password %>
+  <% end %>
+
+  <%= submit_tag "Log in" %>
+<% end %>

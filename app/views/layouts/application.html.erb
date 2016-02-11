@@ -3,10 +3,23 @@
 <head>
   <title>Danebook</title>
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
 </head>
 <body>
+  <% if signed_in_user? %>
+    Welcome, <%= link_to current_user.email, current_user %>!
+
+    <%= link_to "Logout", logout_path, :method => :delete %>
+  <% else %>
+    <%= link_to "Login", login_path %>
+    <%= link_to 'Sign Up', new_user_path %>
+  <% end %>
+
+  <% flash.each do |type, message| %>
+    <h4><%= message %></h4>
+  <% end %>
 
 <%= yield %>
 

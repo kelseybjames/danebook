@@ -1,0 +1,14 @@
+<%= form_for @user do |user_fields| %>
+  <%= render partial: 'user_errors' %>
+
+  <%= user_fields.label :email %>
+  <%= user_fields.text_field :email %>
+  <br>
+  <%= user_fields.label :password %>
+  <%= user_fields.password_field :password %>
+  <br>
+  <%= user_fields.label :password_confirmation %>
+  <%= user_fields.password_field :password_confirmation %>
+  <br>
+  <%= user_fields.submit %>
+<% end %>
