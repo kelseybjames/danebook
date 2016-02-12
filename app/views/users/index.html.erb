@@ -13,8 +13,13 @@
       <tr>
         <td><%= user.email %></td>
         <td><%= link_to 'Show', user_profile_path(user.id, user.profile) %></td>
-        <td><%= link_to 'Edit', edit_user_profile_path(user.id, user.profile) %></td>
-        <td><%= link_to 'Destroy', user, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <% if user == current_user %>
+          <td><%= link_to 'Edit', edit_user_profile_path(user.id, user.profile) %></td>
+          <td><%= link_to 'Destroy', user, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <% else %>
+          <td></td>
+          <td></td>
+        <% end %>
       </tr>
     <% end %>
   </tbody>

@@ -10,17 +10,20 @@ class ApplicationController < ActionController::Base
     user.regenerate_auth_token
     cookies[:auth_token] = user.auth_token
     @current_user = user
+    @current_user == user && cookies[:auth_token] == user.auth_token
   end
 
   def permanent_sign_in(user)
     user.regenerate_auth_token
     cookies.permanent[:auth_token] = user.auth_token
     @current_user = user
+    @current_user == user && cookies[:auth_token] == user.auth_token
   end
 
   def sign_out
     @current_user = nil
-    cookies.delete(:auth_token)
+    cookies.permanent[:auth_token] = cookies[:auth_token] = nil
+    @current_user.nil? && cookies[:auth_token].nil?
   end
 
   def current_user
