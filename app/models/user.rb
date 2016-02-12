@@ -2,6 +2,7 @@ class User < ActiveRecord::Base
   before_create :generate_token
 
   has_one :profile, dependent: :destroy
+  has_many :posts
 
   has_secure_password
 
