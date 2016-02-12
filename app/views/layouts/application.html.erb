@@ -8,13 +8,7 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
-  <% if signed_in_user? %>
-    Welcome, <%= link_to current_user.email, current_user %>!
-
-    <%= link_to "Logout", logout_path, :method => :delete %>
-  <% else %>
-    <%= render partial: 'logged_out_header' %>
-  <% end %>
+  <%= login_links %>
 
   <% flash.each do |type, message| %>
     <h4><%= message %></h4>

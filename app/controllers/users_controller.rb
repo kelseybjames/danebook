@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:show, :edit, :update, :destroy]
+  before_action :set_user, only: [:show, :destroy]
   skip_before_action :require_login, only: [:index, :new, :create]
-  before_action :require_current_user, only: [:edit, :update, :destroy]
+  before_action :require_current_user, only: [:destroy]
 
   def index
     @users = User.all
@@ -16,7 +16,7 @@ class UsersController < ApplicationController
     if @user.save
       sign_in(@user)
       flash[:success] = "Created new user!"
-      redirect_to @user
+      redirect_to user_posts_path(@user)
     else
       flash.now[:error] = "Failed to create user!"
       render :new
@@ -24,19 +24,6 @@ class UsersController < ApplicationController
   end
 
   def show
-  end
-
-  def edit
-  end
-
-  def update
-    if current_user.update(whitelisted_user_params)
-      flash[:success] = "Successfully updated your profile"
-      redirect_to current_user
-    else
-      flash.now[:failure] = "Failed to update your profile"
-      render :edit
-    end
   end
 
   def destroy

@@ -1,11 +1,26 @@
 class PostsController < ApplicationController
-  before_action :set_user, only: [:show, :edit, :update, :destroy]
-  before_action :require_current_profile_user, except: [:show]
+  before_action :set_user, only: [:index, :create, :show, :edit, :update, :destroy]
+  before_action :require_current_profile_user, except: [:show, :index]
 
   def index
-
+    @posts = @user.posts.order('id DESC')
+    @post = Post.new
   end
 
+  def create
+    @post = @user.posts.build(whitelisted_post_params)
+    if @post.save
+      flash[:success] = 'Post created'
+      redirect_to user_posts_path(@user)
+    else
+      flash.now[:error] = 'Post failed to create'
+      render :new
+    end
+  end
+
+  def show
+    @post = Post.find(params[:id])
+  end
 
   private
 

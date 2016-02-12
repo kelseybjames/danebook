@@ -1,0 +1,16 @@
+<div class='col-sm-6 col-sm-offset-3'>
+  <%= form_for [@user, @post] do |post_fields| %>
+    <%= render partial: 'post_errors' %>
+
+    <%= post_fields.label :body %>
+    <%= post_fields.text_area :body %>
+
+    <%= post_fields.submit %>
+  <% end %>
+</div>
+
+<% @posts.each do |post| %>
+  <div class='col-sm-6 col-sm-offset-3' style='border: 2px solid black'>
+    <%= post.body %><br>
+  </div>
+<% end %>
