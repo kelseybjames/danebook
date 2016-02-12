@@ -1,0 +1,27 @@
+<p>
+  <strong>First Name:</strong>
+  <%= @profile.first_name %>
+</p>
+<p>
+  <strong>Last Name:</strong>
+  <%= @profile.last_name %>
+</p>
+<p>
+  <strong>Birth Date:</strong>
+  <%= @profile.day %>/<%= @profile.month %>/<%= @profile.year %>
+</p>
+<p>
+  <strong>Gender:</strong>
+  <%= @profile.gender %>
+</p>
+<p>
+  <strong>Quote:</strong>
+  <%= @profile.quote %>
+</p>
+<p>
+  <strong>About Me:</strong>
+  <%= @profile.about_me %>
+</p>
+
+<%= link_to 'Edit', edit_user_path(@user) %> |
+<%= link_to 'Back', users_path %>

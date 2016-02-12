@@ -61,6 +61,8 @@ class UsersController < ApplicationController
                          :password,
                          :password_confirmation, 
                          { profile_attributes: [
+                          :quote,
+                          :about_me,
                           :first_name, 
                           :last_name, 
                           :day, 

@@ -1,0 +1,32 @@
+<%= form_for [@user, @profile] do |profile_fields| %>
+  <%= render partial: 'profile_errors' %>
+
+  <%= profile_fields.label :first_name %>
+  <%= profile_fields.text_field :first_name %>
+  <br>
+  <%= profile_fields.label :last_name %>
+  <%= profile_fields.text_field :last_name %>
+  <br>
+  <%= profile_fields.label :day %>
+  <%= profile_fields.select :day, 1..31 %>
+
+  <%= profile_fields.label :month %>
+  <%= profile_fields.select :month, 1..12 %>
+
+  <%= profile_fields.label :year %>
+  <%= profile_fields.select :year, 1900..2000 %>
+  <br>
+  <%= profile_fields.label :gender %>
+  Male
+  <%= profile_fields.radio_button('gender', 'male') %>
+  Female
+  <%= profile_fields.radio_button('gender', 'female') %>
+  <br>
+  <%= profile_fields.label :quote %>
+  <%= profile_fields.text_area :quote %>
+  <br>
+  <%= profile_fields.label :about_me %>
+  <%= profile_fields.text_area :about_me %>
+  <br>
+  <%= profile_fields.submit %>
+<% end %>
