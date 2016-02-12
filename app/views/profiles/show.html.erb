@@ -1,27 +1,60 @@
-<p>
-  <strong>First Name:</strong>
-  <%= @profile.first_name %>
-</p>
-<p>
-  <strong>Last Name:</strong>
-  <%= @profile.last_name %>
-</p>
-<p>
-  <strong>Birth Date:</strong>
-  <%= @profile.day %>/<%= @profile.month %>/<%= @profile.year %>
-</p>
-<p>
-  <strong>Gender:</strong>
-  <%= @profile.gender %>
-</p>
-<p>
-  <strong>Quote:</strong>
-  <%= @profile.quote %>
-</p>
-<p>
-  <strong>About Me:</strong>
-  <%= @profile.about_me %>
-</p>
+<section class="row">
+  <header class="col-sm-10 col-sm-offset-1 subpage-header">
+    <div class="container-fluid">
+      <p class="col-sm-10">About</p>
+      <% if @user.id == current_user.id %>
+        <a class="btn btn-primary pull-right col-sm-2" href="<%= edit_user_profile_path(@user.id, @profile) %>" role="button">Edit your Profile</a>
+      <% end %>
+    </div>
+  </header>
+</section>
 
-<%= link_to 'Edit', edit_user_path(@user) %> |
+<section class="row">
+  <div class="col-sm-10 col-sm-offset-1 about-page">
+    <aside class="col-sm-5">
+      <h3>Basic Information</h3>
+
+      <div class="col-sm-4 info-categories">
+        <p>First Name:</p>
+        <p>Last Name:</p>
+        <p>Birthday:</p>
+        <p>College:</p>
+        <p>Hometown:</p>
+        <p>Lives In:</p>
+        <p>Gender:</p>
+      </div>
+
+      <div class="col-sm-8">
+        <p><%= @profile.first_name %></p>
+        <p><%= @profile.last_name %></p>
+        <p><%= @profile.day %>/<%= @profile.month %>/<%= @profile.year %></p>
+        <p>Hogwarts College</p>
+        <p>Godrick's Hollow, England</p>
+        <p>Godrick's Hollow, England</p>
+        <p><%= @profile.gender.capitalize %></p>
+      </div>
+
+      <h3>Contact Information</h3>
+
+      <div class="col-sm-4 info-categories">
+        <p>Email:</p>
+        <p>Telephone:</p>
+      </div>
+
+      <div class="col-sm-8">
+        <p><%= @user.email %></p>
+        <p>555-123-4567</p>
+      </div>
+    </aside>
+
+    <article class="col-sm-7">
+      <h3>Words to Live By</h3>
+      <p><%= @profile.quote %></p>
+
+      <h3>About Me</h3>
+      <p><%= @profile.about_me %></p>
+    </article>
+  </div>
+</section>
+
 <%= link_to 'Back', users_path %>
