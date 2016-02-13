@@ -2,7 +2,11 @@ class User < ActiveRecord::Base
   before_create :generate_token
 
   has_one :profile, dependent: :destroy
-  has_many :posts
+  has_many :posts, inverse_of: :users
+  has_many :post_likings, inverse_of: :users
+  has_many :liked_posts, class_name: 'Post',
+                         through: :post_likings,
+                         inverse_of: :users
 
   has_secure_password
 
