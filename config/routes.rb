@@ -1,7 +1,9 @@
 Rails.application.routes.draw do
   resources :users do
     resource :profile
-    resources :posts
+    resources :posts do
+      resources :post_likings, only: [:new, :create, :destroy]
+    end
   end
 
   resource :session, only: [:new, :create, :destroy]
