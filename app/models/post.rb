@@ -8,6 +8,8 @@ class Post < ActiveRecord::Base
                       dependent: :destroy
   accepts_nested_attributes_for :comments
 
+  validates :body, presence: true
+
   def self.to_s
     'Post'
   end

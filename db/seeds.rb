@@ -61,6 +61,12 @@ def create_post_comments(post)
   end
 end
 
+def create_friends(user)
+  friend = User.all.sample
+  user.friended_users << friend
+  user.save!
+end
+
 puts 'Creating test user'
 u = User.new
 u.email = 'foo@bar.com'
@@ -95,6 +101,12 @@ puts 'Commenting on posts'
 
 Post.all.each do |post|
   create_post_comments(post)
+end
+
+puts 'Friending users'
+
+User.all.each do |user|
+  create_friends(user)
 end
 
 puts 'Done!'

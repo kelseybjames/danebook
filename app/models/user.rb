@@ -51,4 +51,8 @@ class User < ActiveRecord::Base
     friended_users + users_friended_by
   end
 
+  def friends=(friend)
+    friended_users << friend
+  end
+
 end
