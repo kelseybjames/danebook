@@ -3,6 +3,7 @@ Rails.application.routes.draw do
     resource :profile
     resources :posts do
       resources :post_likings, only: [:create, :destroy]
+      resources :comments, defaults: { commentable: 'Post' }
     end
   end
 

@@ -23,6 +23,23 @@
     <% if current_user == @user %>
       <%= link_to 'Delete', user_post_path(@user, post), method: :delete %>
     <% end %>
+
+    <% if current_user %>
+      <%= form_for [current_user, post, post.comments.build] do |comment_fields| %>
+        <%= comment_fields.label :body %>
+        <%= comment_fields.text_area :body %>
+        <%= comment_fields.hidden_field :commentable_id, value: post.id %>
+        <%= comment_fields.hidden_field :commentable_type, value: 'Post' %>
+        <%= comment_fields.submit %>
+      <% end %>
+    <% end %>
+
+    <% post.comments.each do |comment| %>
+      <p><%= comment.body %></p>
+      <% if comment.author_id == current_user.id %>
+        <%= link_to 'Delete', user_post_comment_path(current_user, post, comment), method: :delete %>
+      <% end %>
+    <% end %>
   </div>
 <% end %>
 <%= link_to 'Profile', user_profile_path(@user) %>

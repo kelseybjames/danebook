@@ -3,7 +3,8 @@ class User < ActiveRecord::Base
 
   has_one :profile, dependent: :destroy
   has_many :posts, inverse_of: :user
-  has_many :post_likings, inverse_of: :user
+  has_many :post_likings, inverse_of: :user,
+                          dependent: :destroy
   has_many :liked_posts, through: :post_likings,
                          source: :post
                         
