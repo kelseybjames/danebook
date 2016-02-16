@@ -1,10 +1,6 @@
 class PostLikingsController < ApplicationController
   before_action :require_login
 
-  def new
-    @like = PostLiking.new
-  end
-
   def create
     @like = PostLiking.new(whitelisted_liking_params)
     if @like.save

@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   resources :users do
     resource :profile
     resources :posts do
-      resources :post_likings, only: [:new, :create, :destroy]
+      resources :post_likings, only: [:create, :destroy]
     end
   end
 

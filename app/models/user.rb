@@ -4,9 +4,9 @@ class User < ActiveRecord::Base
   has_one :profile, dependent: :destroy
   has_many :posts, inverse_of: :user
   has_many :post_likings, inverse_of: :user
-  has_many :liked_posts, class_name: 'Post',
-                         through: :post_likings,
-                         inverse_of: :users
+  has_many :liked_posts, through: :post_likings,
+                         source: :post
+                        
 
   has_secure_password
 
