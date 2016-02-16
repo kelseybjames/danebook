@@ -8,11 +8,11 @@ class User < ActiveRecord::Base
   has_many :liked_posts, through: :post_likings,
                          source: :post
                         
-
+  has_many :comments      
   has_secure_password
 
   validates :password,
-            :length => { :in => 8..24 },
+            :length => { :in => 4..24 },
             :allow_nil => true
 
   accepts_nested_attributes_for :profile,

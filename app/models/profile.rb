@@ -4,6 +4,6 @@ class Profile < ActiveRecord::Base
   validates :first_name, :last_name,
             length: { in: 1..24 }
 
-  validates :gender, inclusion: {in: ['male', 'female'] }
+  validates :gender, inclusion: {in: ['Male', 'Female'] }
 
 end
