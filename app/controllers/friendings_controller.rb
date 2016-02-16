@@ -7,13 +7,13 @@ class FriendingsController < ApplicationController
     else
       flash[:error] = 'Failed to add friend'
     end
-    redirect_to user_posts_path(friending_recipient)
+    redirect_to request.referrer
   end
 
   def destroy
     unfriended_user = User.find(params[:id])
     current_user.friended_users.delete(unfriended_user)
     flash[:success] = "Unfriended #{unfriended_user.profile.first_name}."
-    redirect_to user_posts_path(current_user)
+    redirect_to request.referrer
   end
 end

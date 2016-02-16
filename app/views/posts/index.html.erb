@@ -1,8 +1,8 @@
 <% unless current_user == @user %>
   <% if current_user.friended_users.pluck(:id).include?(@user.id) %>
-    <%= link_to "Unfriend #{@user.profile.first_name}", friending_path(@user, current_user), method: :delete %>
+    <%= link_to "Unfriend #{@user.profile.first_name}", friending_path(@user), method: :delete %>
   <% else %>
-    <%= link_to "Friend #{@user.profile.first_name}", friendings_path(id: @user.id, current_user_id: current_user.id), method: :post %> 
+    <%= link_to "Friend #{@user.profile.first_name}", friendings_path(id: @user.id), method: :post %> 
   <% end %>
 <% end %>
 
