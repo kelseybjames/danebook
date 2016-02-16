@@ -15,13 +15,13 @@
   <div class='col-sm-6 col-sm-offset-3' style='border: 2px solid black'>
     <%= post.body %><br>
     <% if current_user.liked_posts.include?(post) %>
-      <%= link_to 'Unlike', user_post_post_liking_path(current_user, post, PostLiking.where(user_id: current_user.id, post_id: post.id).first.id), method: :delete %>
+      <%= link_to "Unlike(#{post.post_likings.count})", user_post_post_liking_path(current_user, post, PostLiking.where(user_id: current_user.id, post_id: post.id).first.id), method: :delete %>
     <% else %>
-      <%= link_to 'Like', user_post_post_likings_path(current_user, post), method: :post %>
+      <%= link_to "Like(#{post.post_likings.count})", user_post_post_likings_path(current_user, post), method: :post %>
     <% end %>
 
     <% if current_user == @user %>
-      <%= link_to 'Delete Post', user_post_path(@user, post), method: :delete %>
+      <%= link_to 'Delete', user_post_path(@user, post), method: :delete %>
     <% end %>
   </div>
 <% end %>
