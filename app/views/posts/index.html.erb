@@ -6,49 +6,66 @@
   <% end %>
 <% end %>
 
-<% if current_user == @user %>
-  <div class='col-sm-6 col-sm-offset-3'>
-    <%= form_for [@user, @post] do |post_fields| %>
-      <%= render partial: 'post_errors' %>
+<!-- Friends box -->
+<section class="row">
+  <aside class='col-sm-4 col-sm-offset-1'>
+    <header class="timeline-subpage-header">
+      <div class="container-fluid">
+        <p>Friends (<%= @user.friends.count %>)</p>
+      </div>
+    </header>
 
-      <%= post_fields.label :body %>
-      <%= post_fields.text_area :body %>
+    <div class="container-fluid">
+      <% @user.friends.each do |friend| %>
+        <%= link_to "#{friend.profile.full_name}", user_posts_path(friend), class: 'col-sm-4' %>
+      <% end %>
+    </div>
+  </aside>
 
-      <%= post_fields.submit %>
-    <% end %>
-  </div>
-<% end %>
-
-<%= link_to 'Profile', user_profile_path(@user) %>
-
-<% @posts.each do |post| %>
-  <div class='col-sm-6 col-sm-offset-3' style='border: 2px solid black'>
-    <%= post.body %><br>
-    <% if current_user.liked_posts.include?(post) %>
-      <%= link_to "Unlike(#{post.post_likings.count})", user_post_post_liking_path(current_user, post, PostLiking.where(user_id: current_user.id, post_id: post.id).first.id), method: :delete %>
-    <% else %>
-      <%= link_to "Like(#{post.post_likings.count})", user_post_post_likings_path(current_user, post), method: :post %>
-    <% end %>
-
+  <div class='col-sm-6'>
     <% if current_user == @user %>
-      <%= link_to 'Delete', user_post_path(@user, post), method: :delete %>
-    <% end %>
+      <%= form_for [@user, @post] do |post_fields| %>
+        <%= render partial: 'post_errors' %>
 
-    <% if current_user %>
-      <%= form_for [current_user, post, post.comments.build] do |comment_fields| %>
-        <%= comment_fields.label :body %>
-        <%= comment_fields.text_area :body %>
-        <%= comment_fields.hidden_field :commentable_id, value: post.id %>
-        <%= comment_fields.hidden_field :commentable_type, value: 'Post' %>
-        <%= comment_fields.submit %>
+        <%= post_fields.label :body %>
+        <%= post_fields.text_area :body %>
+
+        <%= post_fields.submit %>
       <% end %>
     <% end %>
 
-    <% post.comments.each do |comment| %>
-      <p><%= comment.body %></p>
-      <% if comment.author_id == current_user.id %>
-        <%= link_to 'Delete', user_post_comment_path(current_user, post, comment), method: :delete %>
-      <% end %>
+    <%= link_to 'Profile', user_profile_path(@user) %>
+
+    <% @posts.each do |post| %>
+      <div style='border: 2px solid black'>
+        <%= post.body %><br>
+        <% if current_user.liked_posts.include?(post) %>
+          <%= link_to "Unlike(#{post.post_likings.count})", user_post_post_liking_path(current_user, post, PostLiking.where(user_id: current_user.id, post_id: post.id).first.id), method: :delete %>
+        <% else %>
+          <%= link_to "Like(#{post.post_likings.count})", user_post_post_likings_path(current_user, post), method: :post %>
+        <% end %>
+
+        <% if current_user == @user %>
+          <%= link_to 'Delete', user_post_path(@user, post), method: :delete %>
+        <% end %>
+
+        <% if current_user %>
+          <%= form_for [current_user, post, post.comments.build] do |comment_fields| %>
+            <%= comment_fields.label :body %>
+            <%= comment_fields.text_area :body %>
+            <%= comment_fields.hidden_field :commentable_id, value: post.id %>
+            <%= comment_fields.hidden_field :commentable_type, value: 'Post' %>
+            <%= comment_fields.submit %>
+          <% end %>
+        <% end %>
+
+        <% post.comments.each do |comment| %>
+          <p><%= comment.body %></p>
+          <% if comment.author_id == current_user.id %>
+            <%= link_to 'Delete', user_post_comment_path(current_user, post, comment), method: :delete %>
+          <% end %>
+        <% end %>
+      </div>
     <% end %>
   </div>
-<% end %>
+</section>

@@ -6,4 +6,8 @@ class Profile < ActiveRecord::Base
 
   validates :gender, inclusion: {in: ['Male', 'Female'] }
 
+  def full_name
+    "#{first_name} #{last_name}"
+  end
+
 end

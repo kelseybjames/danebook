@@ -47,4 +47,8 @@ class User < ActiveRecord::Base
     save!
   end
 
+  def friends
+    friended_users + users_friended_by
+  end
+
 end
