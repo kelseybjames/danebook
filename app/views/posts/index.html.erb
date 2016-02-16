@@ -1,3 +1,11 @@
+<% unless current_user == @user %>
+  <% if current_user.friended_users.pluck(:id).include?(@user.id) %>
+    <%= link_to "Unfriend #{@user.profile.first_name}", friending_path(@user, current_user), method: :delete %>
+  <% else %>
+    <%= link_to "Friend #{@user.profile.first_name}", friendings_path(id: @user.id, current_user_id: current_user.id), method: :post %> 
+  <% end %>
+<% end %>
+
 <% if current_user == @user %>
   <div class='col-sm-6 col-sm-offset-3'>
     <%= form_for [@user, @post] do |post_fields| %>
@@ -10,6 +18,8 @@
     <% end %>
   </div>
 <% end %>
+
+<%= link_to 'Profile', user_profile_path(@user) %>
 
 <% @posts.each do |post| %>
   <div class='col-sm-6 col-sm-offset-3' style='border: 2px solid black'>
@@ -42,4 +52,3 @@
     <% end %>
   </div>
 <% end %>
-<%= link_to 'Profile', user_profile_path(@user) %>

@@ -7,6 +7,7 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :friendings, only: [:create, :destroy]
   resource :session, only: [:new, :create, :destroy]
 
   root 'users#new'
