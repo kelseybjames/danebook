@@ -8,11 +8,18 @@
 
 MULTIPLIER = 2
 
-if Rails.env = 'development'
+if Rails.env == 'development' 
   puts 'Resetting database'
 
   Rake::Task['db:migrate:reset'].invoke
 end
+
+User.destroy_all
+Profile.destroy_all
+Post.destroy_all
+PostLiking.destroy_all
+Comment.destroy_all
+Friending.destroy_all
 
 def create_user
   u = User.new
