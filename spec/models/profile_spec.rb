@@ -51,6 +51,32 @@ describe Profile do
       new_profile = build(:profile, about_me: "")
       expect(new_profile).to be_valid
     end
+
+    it 'needs valid day' do
+      new_profile = build(:profile, day: 0)
+      expect(new_profile).not_to be_valid
+    end
+
+    it 'needs valid month' do
+      new_profile = build(:profile, month: 0)
+      expect(new_profile).not_to be_valid
+    end
+
+    it 'needs valid year' do
+      new_profile = build(:profile, year: 0)
+      expect(new_profile).not_to be_valid
+    end
+
+    it 'invalid with quote 141 characters long' do
+      new_profile = build(:profile, quote: 'A' * 141)
+      expect(new_profile).not_to be_valid
+    end
+
+    it 'invalid with about_me 1001 characters long' do
+      new_profile = build(:profile, about_me: 'A' * 1001)
+      expect(new_profile).not_to be_valid
+    end
+
   end
 
   describe 'associations' do
