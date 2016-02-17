@@ -7,6 +7,7 @@ describe Profile do
 
   let(:user){ build(:user) }
   let(:profile){ build(:profile) }
+  let(:kelsey_profile){ build(:profile, first_name: 'Kelsey', last_name: 'James') }
 
   describe 'attributes' do
     it 'has valid attributes' do
@@ -82,6 +83,12 @@ describe Profile do
   describe 'associations' do
     it 'responds to user' do
       expect(profile).to respond_to(:user)
+    end
+  end
+
+  describe 'profile methods' do
+    it 'creates full name' do
+      expect(kelsey_profile.full_name).to eq('Kelsey James')
     end
   end
 end
