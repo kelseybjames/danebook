@@ -19,18 +19,24 @@ class User < ActiveRecord::Base
            source: :friend_recipient
 
   has_many :received_friendings,
-           :foreign_key => :friend_id,
-           :class_name => "Friending"
+           foreign_key: :friend_id,
+           class_name: "Friending"
 
   has_many :users_friended_by,
-           :through => :received_friendings,
-           :source => :friend_initiator
+           through: :received_friendings,
+           source: :friend_initiator
 
   has_secure_password
 
+  validates :email, :password, presence: true
+
+  validates :email, 
+            length: { :in => 8..48 },
+            uniqueness: true
+
   validates :password,
-            :length => { :in => 4..24 },
-            :allow_nil => true
+            length: { :in => 4..24 },
+            allow_nil: true
 
   accepts_nested_attributes_for :profile,
                      reject_if: :all_blank
