@@ -1,3 +1,5 @@
+<%= link_to 'User Index', users_path %>
+
 <% unless current_user == @user %>
   <% if current_user.friended_users.pluck(:id).include?(@user.id) %>
     <%= link_to "Unfriend #{@user.profile.first_name}", friending_path(@user), method: :delete %>
