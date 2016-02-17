@@ -66,7 +66,6 @@
           <% end %>
 
           <% post.comments.each do |comment| %>
-            <strong><%= comment.author.profile.full_name %>:</strong>
             <p><%= comment.body %></p>
             <% if comment.author_id == current_user.id %>
               <%= link_to 'Delete', user_post_comment_path(current_user, post, comment), method: :delete %>
