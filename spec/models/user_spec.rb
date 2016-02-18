@@ -102,12 +102,15 @@ describe User do
     it "responds to :initiated_friendings" do
       expect(user).to respond_to(:initiated_friendings)
     end
+
     it "responds to :friended_users" do
       expect(user).to respond_to(:friended_users)
     end
+
     it "responds to :received_friendings" do
       expect(user).to respond_to(:received_friendings)
     end
+
     it "responds to :users_friended_by" do
       expect(user).to respond_to(:users_friended_by)
     end
@@ -119,12 +122,10 @@ describe User do
     end
 
     it 'generates auth_token' do
-      user.generate_token
       expect(user.auth_token).not_to be_nil
     end
 
     it 'regenerates different auth_token' do
-      user.generate_token
       token = user.auth_token
       user.regenerate_auth_token
       expect(user.auth_token).not_to eq(token)
