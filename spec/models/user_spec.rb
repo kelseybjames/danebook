@@ -113,4 +113,27 @@ describe User do
     end
   end
 
+  describe 'methods' do
+    before do
+      user.save!
+    end
+
+    it 'generates auth_token' do
+      user.generate_token
+      expect(user.auth_token).not_to be_nil
+    end
+
+    it 'regenerates different auth_token' do
+      user.generate_token
+      token = user.auth_token
+      user.regenerate_auth_token
+      expect(user.auth_token).not_to eq(token)
+    end
+
+    it 'has friend collection' do
+      new_user = create(:user)
+      user.friends = new_user
+      expect(user.friends).to eq([new_user])
+    end
+  end
 end
