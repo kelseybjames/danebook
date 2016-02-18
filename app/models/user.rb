@@ -1,7 +1,7 @@
 class User < ActiveRecord::Base
   before_create :generate_token
 
-  has_one :profile, dependent: :destroy
+  has_one :profile, inverse_of: :user, dependent: :destroy
   has_many :posts, inverse_of: :user
   has_many :post_likings, inverse_of: :user,
                           dependent: :destroy

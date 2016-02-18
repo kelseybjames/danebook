@@ -1,5 +1,5 @@
 class Profile < ActiveRecord::Base
-  belongs_to :user
+  belongs_to :user, inverse_of: :profile
 
   validates :first_name, :last_name, :gender, :user, presence: true
 
@@ -14,9 +14,11 @@ class Profile < ActiveRecord::Base
 
   validates :year, inclusion: { in: (1900..2000).to_a }
 
-  validates :quote, length: { in: 0..140 }
+  validates :quote, length: { in: 0..140 },
+                    allow_nil: true
 
-  validates :about_me, length: { in: 0..1000 }
+  validates :about_me, length: { in: 0..1000 },
+                        allow_nil: true
 
   def full_name
     "#{first_name} #{last_name}"
