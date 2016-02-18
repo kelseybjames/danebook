@@ -131,7 +131,7 @@ describe User do
       expect(user.auth_token).not_to eq(token)
     end
 
-    it 'has friend collection' do
+    it 'can friend another user' do
       new_user = create(:user)
       user.friends = new_user
       expect(user.friends).to eq([new_user])

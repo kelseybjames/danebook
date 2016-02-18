@@ -31,11 +31,11 @@ class User < ActiveRecord::Base
   validates :email, :password, presence: true
 
   validates :email, 
-            length: { :in => 8..48 },
+            length: { in: 8..48 },
             uniqueness: true
 
   validates :password,
-            length: { :in => 4..24 },
+            length: { in: 4..24 },
             allow_nil: true
 
   accepts_nested_attributes_for :profile,
@@ -44,7 +44,7 @@ class User < ActiveRecord::Base
   def generate_token
     begin
       self[:auth_token] = SecureRandom.urlsafe_base64
-    end while User.exists?(:auth_token => self[:auth_token])
+    end while User.exists?(auth_token: self[:auth_token])
   end
 
   def regenerate_auth_token

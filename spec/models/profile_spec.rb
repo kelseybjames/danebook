@@ -6,7 +6,7 @@ require 'rails_helper'
 describe Profile do
 
   let(:user){ build(:user) }
-  let(:profile){ build(:profile) }
+  let(:profile){ build(:profile, user: user) }
   let(:kelsey_profile){ build(:profile, first_name: 'Kelsey', last_name: 'James') }
 
   describe 'attributes' do
@@ -81,14 +81,18 @@ describe Profile do
   end
 
   describe 'associations' do
-    it 'responds to user' do
-      expect(profile).to respond_to(:user)
+    describe '#user' do
+      it 'responds to user' do
+        expect(profile).to respond_to(:user)
+      end
     end
   end
 
   describe 'profile methods' do
-    it 'creates full name' do
-      expect(kelsey_profile.full_name).to eq('Kelsey James')
+    describe '#full_name' do
+      it 'creates full name' do
+        expect(kelsey_profile.full_name).to eq('Kelsey James')
+      end
     end
   end
 end
