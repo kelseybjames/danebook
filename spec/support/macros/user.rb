@@ -1,24 +1,38 @@
 module Macros
   module User
-    def sign_up_form(email: 'foo@bar.com',
-                     password: 'foobar',
-                     confirmation: 'foobar',
-                     first_name: 'Foo',
-                     last_name: 'Bar', 
-                     day: '12',
-                     month: '8',
-                     year: '1993')
+    def sign_up(email:        'foo@bar.com',
+                password:     'foobar',
+                confirmation: 'foobar',
+                first_name:   'Foo',
+                last_name:    'Bar', 
+                day:          '12',
+                month:        '8',
+                year:         '1993')
       within("#new_user") do
-        fill_in 'user_email', with: email
-        fill_in 'user_password', with: password
-        fill_in 'user_password_confirmation', with: confirmation
-        fill_in 'user_profile_attributes_first_name', with: first_name
-        fill_in 'user_profile_attributes_last_name', with: last_name
-        select(day, from: 'user_profile_attributes_day')
-        select(month, from: 'user_profile_attributes_month')
-        select(year, from: 'user_profile_attributes_year')
+        fill_in 'Email', with: email
+        fill_in 'Password', with: password
+        fill_in 'Password confirmation', with: confirmation
+        fill_in 'First name', with: first_name
+        fill_in 'Last name', with: last_name
+        select(day, from: 'Day')
+        select(month, from: 'Month')
+        select(year, from: 'Year')
         choose 'user_profile_attributes_gender_female'
       end
+    end
+
+    def log_out
+      click_link('Logout')
+    end
+
+    def sign_in(email:    'foo@bar.com',
+                password: 'foobar')
+      fill_in 'email', with: email
+      fill_in 'password', with: password
+    end
+
+    def write_post
+      fill_in 'post_body', with: 'This is a test post'
     end
   end
 end

@@ -28,7 +28,7 @@ class User < ActiveRecord::Base
 
   has_secure_password
 
-  validates :email, :password, presence: true
+  validates :email, presence: true
 
   validates :email, 
             length: { in: 8..48 },

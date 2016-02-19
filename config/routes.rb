@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   resources :users do
-    resource :profile
+    resource :profile, except: [:new, :destroy]
     resources :posts do
       resources :post_likings, only: [:create, :destroy]
       resources :comments, defaults: { commentable: 'Post' }
