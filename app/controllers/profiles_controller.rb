@@ -2,8 +2,6 @@ class ProfilesController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
   before_action :require_current_profile_user, except: [:show]
 
-  def create
-  end
 
   def show
     @profile = @user.profile
@@ -19,7 +17,8 @@ class ProfilesController < ApplicationController
       flash[:success] = 'Profile updated'
       redirect_to user_profile_path(@user)
     else
-
+      flash.now[:error] = 'Profile failed to update'
+      render :edit
     end
   end
 
