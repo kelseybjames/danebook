@@ -6,6 +6,10 @@ class Post < ActiveRecord::Base
                           inverse_of: :posts
   has_many :comments, as: :commentable,
                       dependent: :destroy
+                      
+  has_many :likes, as: :likeable,
+                   dependent: :destroy
+
   accepts_nested_attributes_for :comments
 
   validates :body, :user, presence: true

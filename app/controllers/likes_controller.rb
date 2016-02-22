@@ -1,8 +1,12 @@
-class PostLikingsController < ApplicationController
+class LikesController < ApplicationController
   before_action :require_login
+  before_action :set_post
 
   def create
-    @like = PostLiking.new(whitelisted_liking_params)
+    @like = Like.new(whitelisted_liking_params)
+    @like[:user_id] = current_user.id
+    @like[:likeable_id] = @post.id
+    @like[:likeable_type] = 'Post'
     if @like.save
       flash[:success] = 'Post liked'
     else
@@ -12,7 +16,7 @@ class PostLikingsController < ApplicationController
   end
 
   def destroy
-    @like = PostLiking.find(params[:id])
+    @like = Like.find(params[:id])
     if @like.destroy
       flash[:success] = 'Post unliked'
     else
@@ -23,7 +27,11 @@ class PostLikingsController < ApplicationController
 
   private
 
+  def set_post
+    @post = Post.find(params[:post_id])
+  end
+
   def whitelisted_liking_params
-    params.permit(:user_id, :post_id)
+    params.permit(:likeable_id, :likeable_type)
   end
 end
