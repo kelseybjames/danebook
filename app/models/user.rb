@@ -5,7 +5,8 @@ class User < ActiveRecord::Base
   has_many :posts, inverse_of: :user
   has_many :likes, inverse_of: :user
   has_many :comments, inverse_of: :user
-  has_many :photos, inverse_of: :user
+  has_many :photos, inverse_of: :user, 
+            dependent: :destroy
   
   has_many :initiated_friendings, 
             foreign_key: :friender_id,
@@ -23,6 +24,10 @@ class User < ActiveRecord::Base
            through: :received_friendings,
            source: :friend_initiator
 
+  belongs_to :avatar, class_name: 'Photo'
+
+  belongs_to :cover_photo, class_name: 'Photo'
+
   has_secure_password
 
   validates :email, presence: true
@@ -35,8 +40,23 @@ class User < ActiveRecord::Base
             length: { in: 4..24 },
             allow_nil: true
 
+  validate :avatar_belongs_to_user
+
+  validate :cover_photo_belongs_to_user
+
   accepts_nested_attributes_for :profile,
                      reject_if: :all_blank
+
+  def friends
+    # TODO: Change to SQL
+    friended_users + users_friended_by
+  end
+
+  def friends=(friend)
+    friended_users << friend
+  end
+
+  private
 
   def generate_token
     begin
@@ -50,12 +70,11 @@ class User < ActiveRecord::Base
     save!
   end
 
-  def friends
-    friended_users + users_friended_by
+  def avatar_belongs_to_user
+    avatar.user_id == id
   end
 
-  def friends=(friend)
-    friended_users << friend
+  def cover_photo_belongs_to_user
+    cover_photo.user_id == id
   end
-
 end

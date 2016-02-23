@@ -17,4 +17,8 @@ class Photo < ActiveRecord::Base
   def self.to_s
     'Photo'
   end
+
+  def photo_from_url(url)
+    self.photo = open(url)
+  end
 end
