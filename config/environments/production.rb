@@ -76,4 +76,24 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
+
+  Paperclip.options[:command_path] = "/usr/local/bin/convert"
+  config.paperclip_defaults = {
+
+      # Don't forget to make S3 your storage option!
+      :storage => :s3,
+
+      :s3_credentials => {
+
+          # put your host name here if needed
+          #   see the reading below for more details
+          # NOTE: This must be the correct region for YOU
+          :url => "s3-website-us-west-2.amazonaws.com",
+          :bucket => Rails.application.secrets.BUCKET,
+          # NOTE: these lines are changed to use secrets.yml
+          # from the examples (which use ENV vars instead)
+          :access_key_id => Rails.application.secrets.AWS_KEY,
+          :secret_access_key => Rails.application.secrets.AWS_PASS
+      }
+  }
 end

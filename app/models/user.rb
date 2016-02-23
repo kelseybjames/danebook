@@ -3,12 +3,9 @@ class User < ActiveRecord::Base
 
   has_one :profile, inverse_of: :user, dependent: :destroy
   has_many :posts, inverse_of: :user
-  has_many :post_likings, inverse_of: :user,
-                          dependent: :destroy
-  has_many :liked_posts, through: :post_likings,
-                         source: :post
-                        
-  has_many :comments      
+  has_many :likes, inverse_of: :user
+  has_many :comments, inverse_of: :user
+  has_many :photos, inverse_of: :user
   
   has_many :initiated_friendings, 
             foreign_key: :friender_id,

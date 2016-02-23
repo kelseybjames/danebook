@@ -1,0 +1,31 @@
+<div class='row'>
+  <div class='col-sm-5 col-sm-offset-1'>
+    <h1><%= @photo.image_file_name %></h1>
+    <%= image_tag @photo.image.url(:medium) %>
+
+    <% if @photo.likes.find_by_user_id(current_user.id).nil? %>
+      <%= link_to "Like(#{@photo.likes.count})", user_photo_likes_path(current_user, @photo), method: :post %>
+    <% else %>
+      <%= link_to "Unlike(#{@photo.likes.count})", user_photo_like_path(current_user, @photo, Like.where(user_id: current_user.id, likeable_id: @photo.id, likeable_type: 'Photo').first.id), method: :delete %>
+    <% end %>
+  </div>
+
+  <% if current_user %>
+    <%= form_for [current_user, @photo, @photo.comments.build] do |comment_fields| %>
+      <%= comment_fields.label :body %>
+      <%= comment_fields.text_area :body %>
+      <%= comment_fields.hidden_field :commentable_id, value: @photo.id %>
+      <%= comment_fields.hidden_field :commentable_type, value: 'Photo' %>
+      <%= comment_fields.submit %>
+    <% end %>
+  <% end %>
+
+  <% @photo.comments.each do |comment| %>
+    <div class='col-sm-5' style='border: 2px solid black'>
+      <p><%= comment.body %></p>
+      <% if comment.author_id == current_user.id %>
+        <%= link_to 'Delete', user_post_comment_path(current_user, @photo, comment), method: :delete %>
+      <% end %>
+    </div>
+  <% end %>
+</div>

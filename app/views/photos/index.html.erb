@@ -1,0 +1,7 @@
+<%= render partial: 'photo_form' %>
+<br>
+<% @photos.each do |photo| %>
+  <%= link_to user_photo_path(@user, photo) do %>
+    <%= image_tag photo.image.url(:thumb) %>
+  <% end %>
+<% end %>

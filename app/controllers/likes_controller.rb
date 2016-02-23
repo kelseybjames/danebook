@@ -1,16 +1,16 @@
 class LikesController < ApplicationController
   before_action :require_login
-  before_action :set_post
+  before_action :set_parent
 
   def create
     @like = Like.new(whitelisted_liking_params)
     @like[:user_id] = current_user.id
-    @like[:likeable_id] = @post.id
-    @like[:likeable_type] = 'Post'
+    @like[:likeable_id] = @parent.id
+    @like[:likeable_type] = @parent.class.to_s
     if @like.save
-      flash[:success] = 'Post liked'
+      flash[:success] = "#{@parent.class.to_s} liked"
     else
-      flash[:error] = 'Post like failed'
+      flash[:error] = "#{@parent.class.to_s} like failed"
     end
     redirect_to request.referrer
   end
@@ -18,17 +18,26 @@ class LikesController < ApplicationController
   def destroy
     @like = Like.find(params[:id])
     if @like.destroy
-      flash[:success] = 'Post unliked'
+      flash[:success] = "#{@parent.class.to_s} unliked"
     else
-      flash[:error] = 'Post unlike failed'
+      flash[:error] = "#{@parent.class.to_s} unlike failed"
     end
     redirect_to request.referrer
   end
 
   private
 
-  def set_post
-    @post = Post.find(params[:post_id])
+  def set_parent
+    @parent = extract_likeable.find(params[id_type])
+  end
+
+  def extract_likeable
+    params[:likeable].constantize
+  end
+
+  def id_type
+    type = params[:likeable]
+    (type.downcase + '_id').to_sym
   end
 
   def whitelisted_liking_params

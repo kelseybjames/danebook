@@ -37,6 +37,7 @@
     <% end %>
 
     <%= link_to 'Profile', user_profile_path(@user) %>
+    <%= link_to 'Photos', user_photos_path(@user) %>
 
     <% @posts.each do |post| %>
       <div style='border: 2px solid black'>

@@ -1,0 +1,8 @@
+<%= form_for [@user, @photo] do |photo_fields| %>
+  <%= render partial: 'photo_errors' %>
+
+  <%= photo_fields.label :image %>
+  <%= photo_fields.file_field :image %>
+
+  <%= photo_fields.submit %>
+<% end %>
