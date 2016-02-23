@@ -8,6 +8,12 @@
   <% end %>
 <% end %>
 
+<h3>Avatar placeholder</h3>
+<%= image_tag @user.avatar.image.url(:thumb) %>
+<br>
+<h3>Cover photo placeholder</h3>
+<%= image_tag @user.cover_photo.image.url(:thumb) %>
+<br>
 <!-- Friends box -->
 <section class="row">
   <aside class='col-sm-4 col-sm-offset-1'>
