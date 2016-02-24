@@ -58,8 +58,9 @@ class User < ActiveRecord::Base
 
   private
 
-  def self.send_welcome_email
-    
+  def self.send_welcome_email(id)
+    user = User.find(id)
+    UserMailer.delay.welcome(user)
   end
 
   def generate_token

@@ -36,6 +36,8 @@ gem 'jazz_hands', '0.5.2', github: 'nixme/jazz_hands', branch: 'bring-your-own-d
 gem 'figaro'
 gem 'paperclip'
 gem 'aws-sdk', '< 2.0'
+gem 'delayed_job_active_record'
+
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
