@@ -4,12 +4,16 @@ Rails.application.routes.draw do
     resource :profile, except: [:new, :destroy]
     resources :photos do
       resources :likes, only: [:create, :destroy], defaults: { likeable: 'Photo' }
-      resources :comments, defaults: { commentable: 'Photo' }
+      resources :comments, defaults: { commentable: 'Photo' } do
+        resources :likes, only: [:create, :destroy], defaults: { likeable: 'Comment' }
+      end
     end
 
     resources :posts do
       resources :likes, only: [:create, :destroy], defaults: { likeable: 'Post' }
-      resources :comments, defaults: { commentable: 'Post' }
+      resources :comments, defaults: { commentable: 'Post' } do
+        resources :likes, only: [:create, :destroy], defaults: { likeable: 'Comment' }
+      end
     end
   end
 

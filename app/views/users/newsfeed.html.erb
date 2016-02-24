@@ -44,6 +44,13 @@
         <% if comment.author %>
           <p><strong><%= comment.author.profile.full_name %>: </strong><%= comment.body %></p>
         <% end %>
+        
+        <% if comment.likes.find_by_user_id(current_user.id).nil? && comment.author_id %>
+          <%= link_to "Like(#{comment.likes.count})", user_post_comment_likes_path(current_user, newsfeed_post, comment), method: :post %>
+        <% elsif comment.author_id %>
+          <%= link_to "Unlike(#{comment.likes.count})", user_post_comment_like_path(current_user, newsfeed_post, comment, comment.likes.find_by_user_id(current_user.id)), method: :delete %>
+        <% end %>
+        
         <% if comment.author_id == current_user.id %>
           <%= link_to 'Delete', user_post_comment_path(current_user, newsfeed_post, comment), method: :delete %>
         <% end %>
