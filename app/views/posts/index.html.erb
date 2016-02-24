@@ -10,9 +10,7 @@
 <%= render partial: 'user_avatar', locals: { user: @user } %>
 <br>
 <h3>Cover photo placeholder</h3>
-<% if @user.cover_photo %>
-  <%= image_tag @user.cover_photo.image.url(:thumb) %>
-<% end %>
+<%= render partial: 'user_cover_photo', locals: { user: @user } %>
 <br>
 <!-- Friends box -->
 <section class="row">

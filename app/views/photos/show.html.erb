@@ -12,6 +12,7 @@
     <% if @user.id == current_user.id %>
       <p><%= link_to 'Set as Avatar', user_path(current_user, user: { avatar_id: @photo.id }), method: :put %></p>
       <p><%= link_to 'Set as Cover Photo', user_path(current_user, user: { cover_photo_id: @photo.id }), method: :put %></p>
+      <p><%= link_to 'Delete Photo', user_photo_path(current_user, @photo), method: :delete %></p>
     <% end %>
   </div>
 
