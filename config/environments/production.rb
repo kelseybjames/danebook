@@ -80,19 +80,19 @@ Rails.application.configure do
   Paperclip.options[:command_path] = "/usr/local/bin/convert"
   config.paperclip_defaults = {
 
-      # Don't forget to make S3 your storage option!
-      :storage => :s3,
+    # Don't forget to make S3 your storage option!
+    :storage => :s3,
 
-      :s3_credentials => {
+    :s3_credentials => {
 
-          # put your host name here if needed
-          #   see the reading below for more details
-          # NOTE: This must be the correct region for YOU
-          :url => "s3-website-us-west-2.amazonaws.com",
-          :bucket => ENV['AWS_BUCKET'],
-          :access_key_id => ENV['AWS_KEY'],
-          :secret_access_key => ENV['AWS_PASS']
-      }
+      # put your host name here if needed
+      #   see the reading below for more details
+      # NOTE: This must be the correct region for YOU
+      :url => "s3-website-us-west-2.amazonaws.com",
+      :bucket => ENV['BUCKET'],
+      :access_key_id => ENV['AWS_KEY'],
+      :secret_access_key => ENV['AWS_PASS']
+    }
   }
 
   config.action_mailer.smtp_settings = {
