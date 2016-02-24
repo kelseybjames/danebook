@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :update, :destroy]
   skip_before_action :require_login, only: [:index, :new, :create]
-  before_action :require_current_user, only: [:update, :destroy]
+  before_action :require_current_user, only: [:update, :destroy, :newsfeed]
 
   def index
     @users = User.search(params[:query])

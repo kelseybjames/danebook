@@ -1,4 +1,4 @@
-<%= render partial: 'photo_form' %>
+<%= render partial: 'photo_form' if current_user == @user %>
 <br>
 <% unless @photos.nil? %>
   <% @photos.each do |photo| %>

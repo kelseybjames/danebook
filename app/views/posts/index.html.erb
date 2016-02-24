@@ -1,5 +1,4 @@
 <%= link_to 'User Index', users_path %>
-<%= link_to 'User Newsfeed', user_newsfeed_path(@user) %>
 
 <% unless current_user == @user %>
   <% if current_user.friended_users.pluck(:id).include?(@user.id) %>
@@ -49,6 +48,9 @@
 
     <%= link_to 'Profile', user_profile_path(@user) %>
     <%= link_to 'Photos', user_photos_path(@user) %>
+    <% if current_user == @user %>
+      <%= link_to 'Newsfeed', user_newsfeed_path(current_user) %>
+    <% end %>
 
     <% @posts.each do |post| %>
       <div style='border: 2px solid black'>
