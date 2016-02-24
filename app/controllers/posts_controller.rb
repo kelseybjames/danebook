@@ -11,7 +11,7 @@ class PostsController < ApplicationController
     @post = @user.posts.build(whitelisted_post_params)
     if @post.save
       flash[:success] = 'Post created'
-      redirect_to user_posts_path(@user)
+      redirect_to request.referrer
     else
       flash.now[:error] = 'Post failed to create'
       render :new
