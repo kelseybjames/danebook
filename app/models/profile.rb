@@ -24,4 +24,12 @@ class Profile < ActiveRecord::Base
     "#{first_name} #{last_name}"
   end
 
+  def self.search(query)
+    if query
+      where('first_name LIKE ?', "%#{query}%")
+    else
+      where("")
+    end
+  end
+
 end

@@ -46,7 +46,7 @@ class ApplicationController < ActionController::Base
   def require_current_user
     unless (params[:id] == current_user.id.to_s) || (params[:user_id] == current_user.id.to_s)
       flash[:error] = "You're not authorized to view this"
-      redirect_to root_url
+      redirect_to request.referrer
     end
   end
 
