@@ -76,10 +76,10 @@ class User < ActiveRecord::Base
   end
 
   def avatar_belongs_to_user
-    avatar.user_id == id
+    avatar.user_id == id if avatar
   end
 
   def cover_photo_belongs_to_user
-    cover_photo.user_id == id
+    cover_photo.user_id == id if cover_photo
   end
 end
