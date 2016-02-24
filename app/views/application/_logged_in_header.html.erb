@@ -8,14 +8,14 @@
     </div>
 
     <!-- Search bar and name -->
-    <form class="navbar-form navbar-right form-inline" role="search">
-      <div class="form-group">
-        <label for="search" class="sr-only">Search</label>
-        <input type="text" name="search" placeholder="Search for Users" class="form-control">
+    <%= form_tag users_path, class: 'navbar-form navbar-right form-inline', role: 'search', method: 'get' do %>
+      <div class='form-group'>
+        <%= label_tag :query, "Find User" %>
+        <%= text_field_tag :query, "", class: 'form-control' %>
+        <%= submit_tag "Search" %>
       </div>
-      <button class="btn btn-link">Search</button>
       <%= link_to "Logout", logout_path, :method => :delete %>
-    </form>
+    <% end %>
   </div>
 
 </nav>

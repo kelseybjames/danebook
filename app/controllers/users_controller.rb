@@ -30,7 +30,7 @@ class UsersController < ApplicationController
   def update
     # TODO: Fix photos show view with set avatar links
     @user = User.find(params[:id])
-    if @user.update
+    if @user.update(whitelisted_user_params)
       flash[:success] = "Updated user!"
       redirect_to user_posts_path(@user)
     else
