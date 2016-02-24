@@ -89,11 +89,9 @@ Rails.application.configure do
           #   see the reading below for more details
           # NOTE: This must be the correct region for YOU
           :url => "s3-website-us-west-2.amazonaws.com",
-          :bucket => Rails.application.secrets.BUCKET,
-          # NOTE: these lines are changed to use secrets.yml
-          # from the examples (which use ENV vars instead)
-          :access_key_id => Rails.application.secrets.AWS_KEY,
-          :secret_access_key => Rails.application.secrets.AWS_PASS
+          :bucket => ENV['AWS_BUCKET'],
+          :access_key_id => ENV['AWS_KEY'],
+          :secret_access_key => ENV['AWS_PASS']
       }
   }
 
