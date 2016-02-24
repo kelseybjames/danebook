@@ -50,9 +50,9 @@ class UsersController < ApplicationController
     end
   end
 
-  def timeline
+  def newsfeed
     @user = User.find(params[:user_id])
-    @timeline = @user.timeline
+    @newsfeed = @user.newsfeed
   end
 
   private

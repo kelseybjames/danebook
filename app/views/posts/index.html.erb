@@ -1,5 +1,5 @@
 <%= link_to 'User Index', users_path %>
-<%= link_to 'User Timeline', user_timeline_path(@user) %>
+<%= link_to 'User Newsfeed', user_newsfeed_path(@user) %>
 
 <% unless current_user == @user %>
   <% if current_user.friended_users.pluck(:id).include?(@user.id) %>
@@ -56,7 +56,7 @@
           <% if @user.avatar %>
             <%= image_tag @user.avatar.image.url(:thumb) %>
           <% else %>
-            <%= image_tag('user_silhouette_generic.gif') %>
+            <%= image_tag('user_silhouette_generic.gif', size: '50') %>
           <% end %>
         </div>
         <div class='media-body'>
@@ -82,7 +82,9 @@
           <% end %>
 
           <% post.comments.each do |comment| %>
-            <p><%= comment.body %></p>
+            <% if comment.author %>
+              <p><strong><%= comment.author.profile.full_name %>: </strong><%= comment.body %></p>
+            <% end %>
             <% if comment.author_id == current_user.id %>
               <%= link_to 'Delete', user_post_comment_path(current_user, post, comment), method: :delete %>
             <% end %>

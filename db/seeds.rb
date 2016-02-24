@@ -17,7 +17,7 @@ end
 User.destroy_all
 Profile.destroy_all
 Post.destroy_all
-PostLiking.destroy_all
+Like.destroy_all
 Comment.destroy_all
 Friending.destroy_all
 
@@ -50,11 +50,13 @@ def create_user_posts(user)
 end
 
 def create_post_likes(post)
-  users = User.all.sample(MULTIPLIER)
-  users.each do |user|
-    post.liking_users << user
+  MULTIPLIER.times do
+    l = Like.new
+    l.likeable_type = 'Post'
+    l.likeable_id = post.id
+    l.user_id = User.all.sample.id
+    l.save!
   end
-  post.save!
 end
 
 def create_post_comments(post)

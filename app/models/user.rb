@@ -68,7 +68,7 @@ class User < ActiveRecord::Base
     save!
   end
 
-  def timeline(last_n=10)
+  def newsfeed(last_n=10)
     # Collect user's friends.
     post_creators = []
     friends.each { |friend| post_creators << friend.id }
