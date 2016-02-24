@@ -14,8 +14,8 @@ class UsersController < ApplicationController
   def create
     @user = User.new(whitelisted_user_params)
     if @user.save
-      sign_in(@user)
       User.delay.send_welcome_email(@user.id)
+      sign_in(@user)
       flash[:success] = "Created new user!"
       redirect_to user_posts_path(@user)
     else

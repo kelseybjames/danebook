@@ -9,10 +9,14 @@
 <% end %>
 
 <h3>Avatar placeholder</h3>
-<%= image_tag @user.avatar.image.url(:thumb) %>
+<% if @user.avatar %>
+  <%= image_tag @user.avatar.image.url(:thumb) %>
+<% end %>
 <br>
 <h3>Cover photo placeholder</h3>
-<%= image_tag @user.cover_photo.image.url(:thumb) %>
+<% if @user.cover_photo %>
+  <%= image_tag @user.cover_photo.image.url(:thumb) %>
+<% end %>
 <br>
 <!-- Friends box -->
 <section class="row">
