@@ -67,12 +67,13 @@ class User < ActiveRecord::Base
     generate_token
     save!
   end
-  
+
   private
 
   def self.send_welcome_email(id)
     user = User.find(id)
     UserMailer.delay.welcome(user)
+    # TODO: Add link to timeline in mailer
   end
 
   def avatar_belongs_to_user
