@@ -8,8 +8,8 @@ class Photo < ActiveRecord::Base
                    dependent: :destroy
 
   has_attached_file :image, styles: { 
-                    medium: "300x300", 
-                    thumb: "100x100" }, 
+                    medium: "200x200", 
+                    thumb: "50x50" }, 
                     s3_host_name: "s3-us-west-2.amazonaws.com"
 
   validates_attachment_content_type :image, content_type: /\Aimage\/.*\Z/
