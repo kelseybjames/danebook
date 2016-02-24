@@ -56,13 +56,6 @@ class User < ActiveRecord::Base
     friended_users << friend
   end
 
-  private
-
-  def self.send_welcome_email(id)
-    user = User.find(id)
-    UserMailer.delay.welcome(user)
-  end
-
   def generate_token
     begin
       self[:auth_token] = SecureRandom.urlsafe_base64
@@ -73,6 +66,13 @@ class User < ActiveRecord::Base
     self.auth_token = nil
     generate_token
     save!
+  end
+  
+  private
+
+  def self.send_welcome_email(id)
+    user = User.find(id)
+    UserMailer.delay.welcome(user)
   end
 
   def avatar_belongs_to_user
