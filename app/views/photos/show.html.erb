@@ -8,6 +8,11 @@
     <% else %>
       <%= link_to "Unlike(#{@photo.likes.count})", user_photo_like_path(current_user, @photo, Like.where(user_id: current_user.id, likeable_id: @photo.id, likeable_type: 'Photo').first.id), method: :delete %>
     <% end %>
+    
+    <% if @user.id == current_user.id %>
+      <%= link_to 'Set as Avatar', user_path(id: current_user.id, user: { avatar_id: @photo.id }, method: :patch %>
+      <%= link_to 'Set as Cover Photo', user_path(id: current_user.id, user: { cover_photo_id: @photo.id }, method: :patch %>
+    <% end %>
   </div>
 
   <% if current_user %>

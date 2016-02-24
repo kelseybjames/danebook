@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:show, :destroy]
+  before_action :set_user, only: [:show, :update, :destroy]
   skip_before_action :require_login, only: [:index, :new, :create]
-  before_action :require_current_user, only: [:destroy]
+  before_action :require_current_user, only: [:update, :destroy]
 
   def index
     @users = User.all
@@ -27,6 +27,18 @@ class UsersController < ApplicationController
   def show
   end
 
+  def update
+    # TODO: Fix photos show view with set avatar links
+    @user = User.find(params[:id])
+    if @user.update
+      flash[:success] = "Updated user!"
+      redirect_to user_posts_path(@user)
+    else
+      flash[:error] = "Failed to update user!"
+      redirect_to request.referrer
+    end
+  end
+
   def destroy
     if current_user.destroy
       sign_out
@@ -47,7 +59,9 @@ class UsersController < ApplicationController
   def whitelisted_user_params
     params.require(:user).permit(:email, 
                          :password,
-                         :password_confirmation, 
+                         :password_confirmation,
+                         :avatar_id,
+                         :cover_photo_id,
                          { profile_attributes: [
                           :quote,
                           :about_me,
