@@ -58,6 +58,10 @@ class User < ActiveRecord::Base
 
   private
 
+  def self.send_welcome_email
+    
+  end
+
   def generate_token
     begin
       self[:auth_token] = SecureRandom.urlsafe_base64

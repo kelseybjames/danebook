@@ -1,0 +1,3 @@
+<h1>Welcome to Danebook, <%= @user.profile.full_name %>!</h1>
+<p>View your timeline here: <%= link_to user_posts_url(@user.id) %></p>
+<p>We hope you enjoy using this service.</p>
