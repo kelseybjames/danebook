@@ -4,14 +4,14 @@
     <%= image_tag @photo.image.url(:medium) %>
 
     <% if @photo.likes.find_by_user_id(current_user.id).nil? %>
-      <%= link_to "Like(#{@photo.likes.count})", user_photo_likes_path(current_user, @photo), method: :post %>
+      <p><%= link_to "Like(#{@photo.likes.count})", user_photo_likes_path(current_user, @photo), method: :post %></p>
     <% else %>
-      <%= link_to "Unlike(#{@photo.likes.count})", user_photo_like_path(current_user, @photo, Like.where(user_id: current_user.id, likeable_id: @photo.id, likeable_type: 'Photo').first.id), method: :delete %>
+      <p><%= link_to "Unlike(#{@photo.likes.count})", user_photo_like_path(current_user, @photo, Like.where(user_id: current_user.id, likeable_id: @photo.id, likeable_type: 'Photo').first.id), method: :delete %></p>
     <% end %>
     
     <% if @user.id == current_user.id %>
-      <%= link_to 'Set as Avatar', user_path(current_user, user: { avatar_id: @photo.id }), method: :put %>
-      <%= link_to 'Set as Cover Photo', user_path(current_user, user: { cover_photo_id: @photo.id }), method: :put %>
+      <p><%= link_to 'Set as Avatar', user_path(current_user, user: { avatar_id: @photo.id }), method: :put %></p>
+      <p><%= link_to 'Set as Cover Photo', user_path(current_user, user: { cover_photo_id: @photo.id }), method: :put %></p>
     <% end %>
   </div>
 

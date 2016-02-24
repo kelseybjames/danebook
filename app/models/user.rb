@@ -68,6 +68,22 @@ class User < ActiveRecord::Base
     save!
   end
 
+  def timeline(last_n=10)
+    # Collect user's friends.
+    post_creators = []
+    friends.each { |friend| post_creators << friend.id }
+    # Collect posts from those friends, order created_at DESC.
+    Post.where('user_id IN (?)', post_creators).order('created_at DESC').limit(last_n)
+  end
+
+  def self.search(query)
+    if query
+      where('email LIKE ?', "%#{query}%")
+    else
+      where("")
+    end
+  end
+
   private
 
   def self.send_welcome_email(id)

@@ -6,10 +6,6 @@ class PhotosController < ApplicationController
     @photo = Photo.new
   end
 
-  def new
-    @photo = Photo.new
-  end
-
   def create
     @photo = @user.photos.build(whitelisted_photo_params)
     if @photo.save

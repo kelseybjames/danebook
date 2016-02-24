@@ -4,7 +4,7 @@ class UsersController < ApplicationController
   before_action :require_current_user, only: [:update, :destroy]
 
   def index
-    @users = User.all
+    @users = User.search(params[:query])
   end
 
   def new
@@ -48,6 +48,11 @@ class UsersController < ApplicationController
       flash[:error] = 'User failed to destroy'
       redirect_to root_path
     end
+  end
+
+  def timeline
+    @user = User.find(params[:user_id])
+    @timeline = @user.timeline
   end
 
   private

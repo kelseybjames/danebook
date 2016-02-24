@@ -1,4 +1,5 @@
 <%= link_to 'User Index', users_path %>
+<%= link_to 'User Timeline', user_timeline_path(@user) %>
 
 <% unless current_user == @user %>
   <% if current_user.friended_users.pluck(:id).include?(@user.id) %>
@@ -52,7 +53,11 @@
     <% @posts.each do |post| %>
       <div style='border: 2px solid black'>
         <div class='media'>
-          <img class='media-object' src='/assets/images/user_silhouette_generic.gif'>
+          <% if @user.avatar %>
+            <%= image_tag @user.avatar.image.url(:thumb) %>
+          <% else %>
+            <%= image_tag('user_silhouette_generic.gif') %>
+          <% end %>
         </div>
         <div class='media-body'>
           <%= post.body %><br>

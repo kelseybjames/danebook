@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   resources :users do
+    get 'timeline'
     resource :profile, except: [:new, :destroy]
     resources :photos do
       resources :likes, only: [:create, :destroy], defaults: { likeable: 'Photo' }
