@@ -26,8 +26,15 @@
     </header>
 
     <div class="container-fluid">
-      <% @user.friends.each do |friend| %>
+      <% @user.friends[0..5].each do |friend| %>
+        <div class='col-sm-4'>
+        <% if friend.avatar %>
+          <%= image_tag friend.avatar.image.url(:thumb) %>
+        <% else %>
+          <%= image_tag('user_silhouette_generic.gif', size: '50') %>
+        <% end %>
         <%= link_to "#{friend.profile.full_name}", user_posts_path(friend), class: 'col-sm-4' %>
+        </div>
       <% end %>
     </div>
   </aside>
