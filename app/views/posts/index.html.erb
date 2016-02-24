@@ -7,9 +7,7 @@
 <% end %>
 
 <h3>Avatar placeholder</h3>
-<% if @user.avatar %>
-  <%= image_tag @user.avatar.image.url(:thumb) %>
-<% end %>
+<%= render partial: 'user_avatar', locals: { user: @user } %>
 <br>
 <h3>Cover photo placeholder</h3>
 <% if @user.cover_photo %>
@@ -28,11 +26,7 @@
     <div class="container-fluid">
       <% @user.friends[0..5].each do |friend| %>
         <div class='col-sm-4'>
-        <% if friend.avatar %>
-          <%= image_tag friend.avatar.image.url(:thumb) %>
-        <% else %>
-          <%= image_tag('user_silhouette_generic.gif', size: '50') %>
-        <% end %>
+        <%= render partial: 'user_avatar', locals: { user: friend } %>
         <%= link_to "#{friend.profile.full_name}", user_posts_path(friend), class: 'col-sm-4' %>
         </div>
       <% end %>
@@ -60,11 +54,7 @@
     <% @posts.each do |post| %>
       <div style='border: 2px solid black'>
         <div class='media'>
-          <% if @user.avatar %>
-            <%= image_tag @user.avatar.image.url(:thumb) %>
-          <% else %>
-            <%= image_tag('user_silhouette_generic.gif', size: '50') %>
-          <% end %>
+          <%= render partial: 'user_avatar', locals: { user: @user } %>
         </div>
         <div class='media-body'>
           <%= post.body %><br>

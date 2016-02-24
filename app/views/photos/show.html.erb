@@ -27,7 +27,8 @@
 
   <% @photo.comments.each do |comment| %>
     <div class='col-sm-5' style='border: 2px solid black'>
-      <p><%= comment.body %></p>
+      <%= render partial: 'user_avatar', locals: { user: comment.author } if comment.author %>
+      <p><strong><%= comment.author.profile.full_name + ": " if comment.author %></strong><%= comment.body %></p>
       <% if comment.author_id == current_user.id %>
         <%= link_to 'Delete', user_post_comment_path(current_user, @photo, comment), method: :delete %>
       <% end %>

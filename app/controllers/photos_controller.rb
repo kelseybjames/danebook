@@ -1,5 +1,6 @@
 class PhotosController < ApplicationController
   before_action :set_user
+  before_action :require_current_user, only: [:create, :destroy]
 
   def index
     @photos = @user.photos.order('created_at DESC')

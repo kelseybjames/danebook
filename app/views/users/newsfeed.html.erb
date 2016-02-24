@@ -15,11 +15,7 @@
   <div style='border: 2px solid black'>
     <h4><%= newsfeed_post.user.profile.full_name %></h4>
     <div class='media'>
-      <% if newsfeed_post.user.avatar.nil? %>
-        <%= image_tag('user_silhouette_generic.gif', size: '50') %>
-      <% else %>
-        <%= image_tag newsfeed_post.user.avatar.image.url(:thumb) %>
-      <% end %>
+      <%= render partial: 'user_avatar', locals: { user: newsfeed_post.user } %>
     </div>
 
     <div class='media-body'>
