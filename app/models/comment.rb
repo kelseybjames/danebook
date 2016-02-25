@@ -5,4 +5,5 @@ class Comment < ActiveRecord::Base
                    dependent: :destroy
 
   validates :body, :author, presence: true
+  validates :body, length: { in: 1..1000 }
 end

@@ -14,7 +14,7 @@ class PostsController < ApplicationController
       redirect_to request.referrer
     else
       flash.now[:error] = 'Post failed to create'
-      render :new
+      redirect_to request.referrer
     end
   end
 
