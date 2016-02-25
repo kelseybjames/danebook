@@ -1,6 +1,7 @@
 class PhotosController < ApplicationController
   before_action :set_user
   before_action :require_current_user, only: [:create, :destroy]
+  before_action :require_user_friend, only: [:show]
 
   def index
     @photos = @user.photos.order('created_at DESC')
@@ -36,6 +37,13 @@ class PhotosController < ApplicationController
 
   def set_user
     @user = User.find(params[:user_id])
+  end
+
+  def require_user_friend
+    unless current_user.friends.include?(@user)
+      flash[:error] = 'Not authorized'
+      redirect_to request.referrer
+    end
   end
 
   def whitelisted_photo_params
