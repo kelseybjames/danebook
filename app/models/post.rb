@@ -10,6 +10,8 @@ class Post < ActiveRecord::Base
 
   validates :body, :user, presence: true
 
+  validates :body, length: { in: 1..1000 }
+
   def self.to_s
     'Post'
   end
