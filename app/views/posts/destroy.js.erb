@@ -1,3 +1,2 @@
-var $posts = $('#posts');
-var currentPost = $("[data-id=<%= j(@post.id.to_s) %>]");
+var currentPost = $("[data-post-id=<%= j(@post.id.to_s) %>]");
 currentPost.remove();

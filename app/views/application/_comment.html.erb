@@ -1,15 +1,15 @@
-<div class='row'>
+<div class='row comment' data-comment-id='<%= comment.id %>'>
   <% if comment.author %>
     <p><%= comment.author.profile.full_name %>: <%= comment.body %></p>
   <% end %>
 
   <% if comment.likes.find_by_user_id(current_user.id).nil? && comment.author_id %>
-    <%= link_to "Like(#{comment.likes.count})", user_post_comment_likes_path(current_user, post, comment), method: :post %>
+    <%= link_to "Like(#{comment.likes.count})", polymorphic_url([current_user, parent, comment, @like]), method: :post, remote: true, class: 'comment-liking' %>
   <% elsif comment.author_id %>
-    <%= link_to "Unlike(#{comment.likes.count})", user_post_comment_like_path(current_user, post, comment, comment.likes.find_by_user_id(current_user.id)), method: :delete %>
+    <%= link_to "Unlike(#{comment.likes.count})", polymorphic_url([current_user, parent, comment, comment.likes.find_by_user_id(current_user.id)]), method: :delete, remote: true, class: 'comment-liking' %>
   <% end %>
 
   <% if comment.author_id == current_user.id %>
-    <%= link_to 'Delete', user_post_comment_path(current_user, post, comment), method: :delete %>
+    <%= link_to 'Delete', polymorphic_url([current_user, parent, comment]), method: :delete, remote: true %>
   <% end %>
 </div>

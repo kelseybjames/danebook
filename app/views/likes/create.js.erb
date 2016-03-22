@@ -1,0 +1,8 @@
+var $parent = $("[data-<%= j(@like.likeable_type.downcase) %>-id=<%= j(@parent.id.to_s) %>]");
+console.log($parent);
+var $liking = $parent.find('.<%= j(@parent.to_s) %>-liking');
+console.log($liking);
+var path = 'user_' + @parent.to_s.downcase + '_likes_path';
+console.log(path);
+var newLiking = <%= j(link_to('Unlike(@parent.likes.count)')) %>
+$liking.replaceWith("<%= j(link_to('Unlike(@parent.likes.count)', user_post_likes_path(@user, @parent, @like), method: :post, remote: true)) =>");

@@ -1,0 +1,4 @@
+var $parent = $("[data-<%= j(@comment.commentable_type.downcase) %>-id=<%= j(@parent.id.to_s) %>] .comment-list");
+var currentComment = '<%= j(render partial: "comment", locals: { user: current_user, parent: @parent, comment: @comment }) %>';
+$parent.prepend(currentComment);
+$('.new-comment').val('');
