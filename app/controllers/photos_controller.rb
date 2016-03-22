@@ -40,7 +40,7 @@ class PhotosController < ApplicationController
   end
 
   def require_user_friend
-    unless current_user.friends.include?(@user)
+    unless current_user.friends.include?(@user) || (current_user == @user)
       flash[:error] = 'Not authorized'
       redirect_to request.referrer
     end

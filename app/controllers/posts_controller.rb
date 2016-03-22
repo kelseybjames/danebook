@@ -9,12 +9,14 @@ class PostsController < ApplicationController
 
   def create
     @post = @user.posts.build(whitelisted_post_params)
-    if @post.save
-      flash[:success] = 'Post created'
-      redirect_to request.referrer
-    else
-      flash.now[:error] = 'Post failed to create'
-      redirect_to request.referrer
+    respond_to do |format|
+      if @post.save
+        flash[:success] = 'Post created'
+        format.js {}
+      else
+        flash.now[:error] = 'Post failed to create'
+        redirect_to request.referrer
+      end
     end
   end
 

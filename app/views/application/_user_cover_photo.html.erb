@@ -1,5 +1,5 @@
 <% if user.cover_photo %>
-  <%= image_tag user.cover_photo.image.url(:thumb) %>
+  <%= image_tag user.cover_photo.image.url(:medium) %>
 <% else %>
   <%= image_tag('hogwarts_small.jpg') %>
 <% end %>

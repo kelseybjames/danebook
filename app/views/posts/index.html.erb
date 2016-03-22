@@ -1,3 +1,196 @@
+<section class="row">
+  <div class="col-sm-10 col-sm-offset-1">
+    <%= render partial: 'user_cover_photo', locals: { user: @user } %>
+  </div>
+</section>
+
+<section class="row">
+  <nav class="col-sm-10 col-sm-offset-1 tab-bar navbar navbar-default">
+    <div class="container-fluid">
+      <div class="collapse navbar-collapse">
+        <%= render partial: 'user_avatar', locals: { user: @user } %>
+        <p class="name"><%= @user.profile.full_name %></p>
+
+        <ul class="nav navbar-nav page-links">
+          <li class="active">
+            <%= link_to 'Timeline', user_posts_path(@user), class: 'btn btn-link' %>
+          </li>
+          <li>
+            <%= link_to 'About', user_profile_path(@user), class: 'btn btn-link' %>
+          </li>
+          <li>
+            <%= link_to 'Photos', user_photos_path(@user), class: 'btn btn-link' %>
+          </li>
+          <li>
+            <a class="btn btn-link" href="friends.html" role="button">Friends</a>
+          </li>
+        </ul>
+
+      </div>
+    </div>
+  </nav>
+</section>
+
+<section class="row">
+  <div class="col-sm-10 col-sm-offset-1">
+    <aside class="col-sm-4">
+
+      <!--About block -->
+      <section class="row">
+        <header class="timeline-subpage-header">
+          <div class="container-fluid">
+            <p>About</p>
+          </div>
+        </header>
+
+        <div class="timeline-subpage">
+          <p>Born on: July 31st, 1980</p>
+          <p>Went to school at: Hogwarts</p>
+          <p>Hometown: Godrick's Hollow, England</p>
+          <p>Currently Lives: Godrick's Hollow</p>
+        </div>
+      </section>
+
+      <!-- Photos block -->
+      <section class="row">
+        <header class="timeline-subpage-header">
+          <div class="container-fluid">
+            <p>Photos (<%= @user.photos.count %>)</p>
+          </div>
+        </header>
+
+        <div class="timeline-subpage">
+          <div class="timeline-photos">
+            <% @user.photos[0..8].each do |photo| %>
+              <%= image_tag photo.image.url(:thumb) %>
+            <% end %>
+          </div>
+
+          <!-- <a href="#">See More Photos</a> -->
+        </div>
+      </section>
+
+      <!-- Friends block -->
+      <section class="row">
+        <header class="timeline-subpage-header">
+          <div class="container-fluid">
+            <p>Friends (<%= @user.friends.count %>)</p>
+          </div>
+        </header>
+
+        <div class="timeline-subpage">
+          <div class="col-sm-4 timeline-friends">
+            <% @user.friends[0..5].each do |friend| %>
+              <div class='col-sm-4'>
+              <%= render partial: 'user_avatar', locals: { user: friend } %>
+              <%= link_to "#{friend.profile.full_name}", user_posts_path(friend), class: 'col-sm-4' %>
+              </div>
+            <% end %>
+
+          <!-- <a href="#">See More Friends</a> -->
+        </div>
+      </section>
+    </aside>
+
+    <article class="col-sm-8">
+
+      <!--New post block -->
+      <section class="row">
+        <header class="timeline-subpage-header">
+          <div class="container-fluid">
+            <p>Post</p>
+          </div>
+        </header>
+
+        <div class="timeline-subpage post-box">
+          <div class="container-fluid">
+            <% if current_user == @user %>
+              <%= form_for [@user, @post], remote: true do |post_fields| %>
+                <%= render partial: 'post_errors' %>
+
+                <%= post_fields.label :body, class: 'sr-only' %>
+                <%= post_fields.text_area :body %>
+          </div>
+        </div>
+
+        <footer class="subpage-footer">
+          <div class="container-fluid">
+            
+                <%= post_fields.submit 'Post', class: 'btn btn-primary pull-right post-button' %>
+              <% end %>
+            <% end %>
+          
+          </div>
+        </footer>
+      </section>
+
+      <!-- Post block -->
+      <section class="row posts">
+        <% @posts.each do |post| %>
+          <div class="timeline-subpage">
+            <div class="container-fluid">
+              <div class="col-sm-2">
+                <%= render partial: 'user_avatar', locals: { user: @user } %>
+              </div>
+
+              <div class="col-sm-10">
+                <p><%= post.user.profile.full_name %><br>Posted on Thursday 6/1/2014</p>
+              </div>
+
+              <div class="col-sm-12 post-text">
+                <p><%= post.body %></p>
+              </div>
+            </div>
+          </div>
+
+          <footer class="subpage-footer">
+            <div class="container-fluid">
+              <% if post.likes.find_by_user_id(current_user.id).nil? %>
+                <%= link_to "Like(#{post.likes.count})", user_post_likes_path(current_user, post), method: :post %>
+              <% else %>
+                <%= link_to "Unlike(#{post.likes.count})", user_post_like_path(current_user, post, Like.where(user_id: current_user.id, likeable_id: post.id, likeable_type: 'Post').first.id), method: :delete %>
+              <% end %>
+
+              <% if current_user == @user %>
+                <%= link_to 'Delete', user_post_path(@user, post), class: 'pull-right', method: :delete %>
+              <% end %>
+
+              <% if current_user %>
+                <%= form_for [current_user, post, post.comments.build] do |comment_fields| %>
+                  <%= comment_fields.label :body, class: 'sr-only' %>
+                  <%= comment_fields.text_area :body %>
+                  <%= comment_fields.hidden_field :commentable_id, value: post.id %>
+                  <%= comment_fields.hidden_field :commentable_type, value: 'Post' %>
+                  <%= comment_fields.submit 'Comment', class: 'btn btn-primary pull-right' %>
+                <% end %>
+              <% end %>
+
+              <div class='container-fluid'>
+                <% post.comments.each do |comment| %>
+                  <% if comment.author %>
+                    <p><%= comment.author.profile.full_name %>: <%= comment.body %></p>
+                  <% end %>
+                  
+                  <% if comment.likes.find_by_user_id(current_user.id).nil? && comment.author_id %>
+                    <%= link_to "Like(#{comment.likes.count})", user_post_comment_likes_path(current_user, post, comment), method: :post %>
+                  <% elsif comment.author_id %>
+                    <%= link_to "Unlike(#{comment.likes.count})", user_post_comment_like_path(current_user, post, comment, comment.likes.find_by_user_id(current_user.id)), method: :delete %>
+                  <% end %>
+                  
+                  <% if comment.author_id == current_user.id %>
+                    <%= link_to 'Delete', user_post_comment_path(current_user, post, comment), method: :delete %>
+                  <% end %>
+                <% end %>
+              </div>
+            </div>
+          </footer>
+        <% end %>
+
+      </section>
+    </article>
+  </div>
+</section>
+
 <% unless current_user == @user %>
   <% if current_user.friends.include?(@user) %>
     <%= link_to "Unfriend #{@user.profile.first_name}", friending_path(@user), method: :delete %>
@@ -6,93 +199,13 @@
   <% end %>
 <% end %>
 
-<h3>Avatar placeholder</h3>
-<%= render partial: 'user_avatar', locals: { user: @user } %>
-<br>
-<h3>Cover photo placeholder</h3>
-<%= render partial: 'user_cover_photo', locals: { user: @user } %>
-<br>
 <!-- Friends box -->
 <section class="row">
-  <aside class='col-sm-4 col-sm-offset-1'>
-    <header class="timeline-subpage-header">
-      <div class="container-fluid">
-        <p>Friends (<%= @user.friends.count %>)</p>
-      </div>
-    </header>
-
-    <div class="container-fluid">
-      <% @user.friends[0..5].each do |friend| %>
-        <div class='col-sm-4'>
-        <%= render partial: 'user_avatar', locals: { user: friend } %>
-        <%= link_to "#{friend.profile.full_name}", user_posts_path(friend), class: 'col-sm-4' %>
-        </div>
-      <% end %>
-    </div>
-  </aside>
-
   <div class='col-sm-6'>
-    <% if current_user == @user %>
-      <%= form_for [@user, @post] do |post_fields| %>
-        <%= render partial: 'post_errors' %>
 
-        <%= post_fields.label :body %>
-        <%= post_fields.text_area :body %>
-
-        <%= post_fields.submit %>
-      <% end %>
-    <% end %>
-
-    <%= link_to 'Profile', user_profile_path(@user) %>
-    <%= link_to 'Photos', user_photos_path(@user) %>
     <% if current_user == @user %>
       <%= link_to 'Newsfeed', user_newsfeed_path(current_user) %>
     <% end %>
 
-    <% @posts.each do |post| %>
-      <div style='border: 2px solid black'>
-        <div class='media'>
-          <%= render partial: 'user_avatar', locals: { user: @user } %>
-        </div>
-        <div class='media-body'>
-          <%= post.body %><br>
-          <% if post.likes.find_by_user_id(current_user.id).nil? %>
-            <%= link_to "Like(#{post.likes.count})", user_post_likes_path(current_user, post), method: :post %>
-          <% else %>
-            <%= link_to "Unlike(#{post.likes.count})", user_post_like_path(current_user, post, Like.where(user_id: current_user.id, likeable_id: post.id, likeable_type: 'Post').first.id), method: :delete %>
-          <% end %>
-
-          <% if current_user == @user %>
-            <%= link_to 'Delete', user_post_path(@user, post), method: :delete %>
-          <% end %>
-
-          <% if current_user %>
-            <%= form_for [current_user, post, post.comments.build] do |comment_fields| %>
-              <%= comment_fields.label :body %>
-              <%= comment_fields.text_area :body %>
-              <%= comment_fields.hidden_field :commentable_id, value: post.id %>
-              <%= comment_fields.hidden_field :commentable_type, value: 'Post' %>
-              <%= comment_fields.submit %>
-            <% end %>
-          <% end %>
-
-          <% post.comments.each do |comment| %>
-            <% if comment.author %>
-              <p><strong><%= comment.author.profile.full_name %>: </strong><%= comment.body %></p>
-            <% end %>
-            
-            <% if comment.likes.find_by_user_id(current_user.id).nil? && comment.author_id %>
-              <%= link_to "Like(#{comment.likes.count})", user_post_comment_likes_path(current_user, post, comment), method: :post %>
-            <% elsif comment.author_id %>
-              <%= link_to "Unlike(#{comment.likes.count})", user_post_comment_like_path(current_user, post, comment, comment.likes.find_by_user_id(current_user.id)), method: :delete %>
-            <% end %>
-            
-            <% if comment.author_id == current_user.id %>
-              <%= link_to 'Delete', user_post_comment_path(current_user, post, comment), method: :delete %>
-            <% end %>
-          <% end %>
-        </div>
-      </div>
-    <% end %>
   </div>
 </section>

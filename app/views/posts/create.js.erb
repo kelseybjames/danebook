@@ -1,0 +1,4 @@
+var $posts = $('.posts');
+var currentPost = '<%= j(@post.body) %>';
+
+$posts.prepend(currentPost);
