@@ -1,8 +1,8 @@
-var $parent = $("[data-<%= j(@like.likeable_type.downcase) %>-id=<%= j(@parent.id.to_s) %>]");
+var $parent = $("[data-<%= j(@like.likeable_type.downcase) %>-id=<%= j(@parent.id.to_s) %>] .<%= j(@like.likeable_type.downcase) %>-liking");
 console.log($parent);
-var $liking = $parent.find('.<%= j(@parent.to_s) %>-liking');
-console.log($liking);
-var path = 'user_' + @parent.to_s.downcase + '_likes_path';
-console.log(path);
-var newLiking = <%= j(link_to('Unlike(@parent.likes.count)')) %>
-$liking.replaceWith("<%= j(link_to('Unlike(@parent.likes.count)', user_post_likes_path(@user, @parent, @like), method: :post, remote: true)) =>");
+var likeNumber = $parent.text().split('(')[1][0];
+console.log('Likes: ' + likeNumber);
+likeNumber++;
+console.log('New likes: ' + likeNumber);
+var newLikeLink = "<%= j(link_to 'Unlike()', polymorphic_url([current_user, @parent, @parent.likes.find_by_user_id(current_user.id)]), method: :delete, remote: true, class: 'comment-liking') %>";
+$parent.replaceWith(newLikeLink);

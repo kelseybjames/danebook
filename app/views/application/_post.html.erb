@@ -30,15 +30,15 @@
       <% if current_user %>
         <%= form_for [current_user, post, post.comments.build], remote: true do |comment_fields| %>
           <%= comment_fields.label :body, class: 'sr-only' %>
-          <%= comment_fields.text_area :body, class: 'new-comment' %>
+          <%= comment_fields.text_area :body, id: 'new-comment' %>
           <%= comment_fields.hidden_field :commentable_id, value: post.id %>
           <%= comment_fields.hidden_field :commentable_type, value: 'Post' %>
           <%= comment_fields.submit 'Comment', class: 'btn btn-primary pull-right' %>
         <% end %>
       <% end %>
 
-      <div class='container-fluid comment-list'>
-        <% post.comments.each do |comment| %>
+      <div class='container-fluid comment-list' id='comments'>
+        <% post.comments.order('created_at DESC').each do |comment| %>
           <%= render partial: 'comment', locals: { user: @user, parent: post, comment: comment } %>
         <% end %>
       </div>
