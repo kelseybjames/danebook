@@ -4,9 +4,9 @@
     <%= image_tag @photo.image.url(:medium) %>
 
     <% if @photo.likes.find_by_user_id(current_user.id).nil? %>
-      <p><%= link_to "Like(#{@photo.likes.count})", user_photo_likes_path(current_user, @photo), method: :post %></p>
+      <p><%= link_to "Like(#{@photo.likes.count})", user_photo_likes_path(current_user, @photo), method: :post, remote: true %></p>
     <% else %>
-      <p><%= link_to "Unlike(#{@photo.likes.count})", user_photo_like_path(current_user, @photo, Like.where(user_id: current_user.id, likeable_id: @photo.id, likeable_type: 'Photo').first.id), method: :delete %></p>
+      <p><%= link_to "Unlike(#{@photo.likes.count})", user_photo_like_path(current_user, @photo, Like.where(user_id: current_user.id, likeable_id: @photo.id, likeable_type: 'Photo').first.id), method: :delete, remote: true %></p>
     <% end %>
     
     <% if @user.id == current_user.id %>
@@ -15,24 +15,24 @@
       <p><%= link_to 'Delete Photo', user_photo_path(current_user, @photo), method: :delete %></p>
     <% end %>
   </div>
+  
+  
+  <div class='col-sm-5' data-photo-id="<%= @photo.id %>">
 
-  <% if current_user %>
-    <%= form_for [current_user, @photo, @photo.comments.build] do |comment_fields| %>
-      <%= comment_fields.label :body %>
-      <%= comment_fields.text_area :body %>
-      <%= comment_fields.hidden_field :commentable_id, value: @photo.id %>
-      <%= comment_fields.hidden_field :commentable_type, value: 'Photo' %>
-      <%= comment_fields.submit %>
+    <% if current_user %>
+      <%= form_for [current_user, @photo, @photo.comments.build], remote: true do |comment_fields| %>
+        <%= comment_fields.label :body, class: 'sr-only' %>
+        <%= comment_fields.text_area :body, id: 'new-comment' %>
+        <%= comment_fields.hidden_field :commentable_id, value: @photo.id %>
+        <%= comment_fields.hidden_field :commentable_type, value: 'Photo' %>
+        <%= comment_fields.submit 'Comment' %>
+      <% end %>
     <% end %>
-  <% end %>
-
-  <% @photo.comments.each do |comment| %>
-    <div class='col-sm-5' style='border: 2px solid black'>
-      <%= render partial: 'user_avatar', locals: { user: comment.author } if comment.author %>
-      <p><strong><%= comment.author.profile.full_name + ": " if comment.author %></strong><%= comment.body %></p>
-      <% if comment.author_id == current_user.id %>
-        <%= link_to 'Delete', user_post_comment_path(current_user, @photo, comment), method: :delete %>
+    
+    <div class='container-fluid comment-list' id='comments'>
+      <% @photo.comments.order('created_at DESC').each do |comment| %>
+        <%= render partial: 'comment', locals: { user: @user, parent: @photo, comment: comment } %>
       <% end %>
     </div>
-  <% end %>
+  </div>
 </div>
