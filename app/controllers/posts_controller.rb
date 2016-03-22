@@ -11,11 +11,9 @@ class PostsController < ApplicationController
     @post = @user.posts.build(whitelisted_post_params)
     respond_to do |format|
       if @post.save
-        flash[:success] = 'Post created'
         format.js {}
       else
-        flash.now[:error] = 'Post failed to create'
-        redirect_to request.referrer
+        format.js {}
       end
     end
   end
@@ -26,12 +24,12 @@ class PostsController < ApplicationController
 
   def destroy
     @post = Post.find(params[:id])
-    if @post.destroy
-      flash[:success] = 'Post deleted'
-      redirect_to user_posts_path(@user)
-    else
-      flash[:error] = 'Post failed to delete'
-      redirect_to user_posts_path(@user)
+    respond_to do |format|
+      if @post.destroy
+        format.js {}
+      else
+        format.js {}
+      end
     end
   end
   private

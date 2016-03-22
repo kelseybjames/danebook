@@ -1,0 +1,47 @@
+<div class='user-post' data-id="<%= post.id %>" >  
+  <div class="timeline-subpage">
+    <div class="container-fluid">
+      <div class="col-sm-2">
+        <%= render partial: 'user_avatar', locals: { user: @user } %>
+      </div>
+
+      <div class="col-sm-10">
+        <p><%= post.user.profile.full_name %><br>Posted on Thursday 6/1/2014</p>
+      </div>
+
+      <div class="col-sm-12 post-text">
+        <p><%= post.body %></p>
+      </div>
+    </div>
+  </div>
+
+  <footer class="subpage-footer">
+    <div class="container-fluid">
+      <% if post.likes.find_by_user_id(current_user.id).nil? %>
+        <%= link_to "Like(#{post.likes.count})", user_post_likes_path(current_user, post), method: :post, remote: true %>
+      <% else %>
+        <%= link_to "Unlike(#{post.likes.count})", user_post_like_path(current_user, post, Like.where(user_id: current_user.id, likeable_id: post.id, likeable_type: 'Post').first.id), method: :delete, remote: true %>
+      <% end %>
+
+      <% if current_user == @user %>
+        <%= link_to 'Delete', user_post_path(@user, post), class: 'pull-right', method: :delete, remote: true %>
+      <% end %>
+
+      <% if current_user %>
+        <%= form_for [current_user, post, post.comments.build] do |comment_fields| %>
+          <%= comment_fields.label :body, class: 'sr-only' %>
+          <%= comment_fields.text_area :body %>
+          <%= comment_fields.hidden_field :commentable_id, value: post.id %>
+          <%= comment_fields.hidden_field :commentable_type, value: 'Post' %>
+          <%= comment_fields.submit 'Comment', class: 'btn btn-primary pull-right' %>
+        <% end %>
+      <% end %>
+
+      <div class='container-fluid'>
+        <% post.comments.each do |comment| %>
+          <%= render partial: 'comment', locals: { user: @user, post: post, comment: comment } %>
+        <% end %>
+      </div>
+    </div>
+  </footer>
+</div>

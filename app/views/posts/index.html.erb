@@ -109,7 +109,7 @@
                 <%= render partial: 'post_errors' %>
 
                 <%= post_fields.label :body, class: 'sr-only' %>
-                <%= post_fields.text_area :body %>
+                <%= post_fields.text_area :body, id: 'new-post' %>
           </div>
         </div>
 
@@ -125,65 +125,9 @@
       </section>
 
       <!-- Post block -->
-      <section class="row posts">
+      <section class="row" id="posts">
         <% @posts.each do |post| %>
-          <div class="timeline-subpage">
-            <div class="container-fluid">
-              <div class="col-sm-2">
-                <%= render partial: 'user_avatar', locals: { user: @user } %>
-              </div>
-
-              <div class="col-sm-10">
-                <p><%= post.user.profile.full_name %><br>Posted on Thursday 6/1/2014</p>
-              </div>
-
-              <div class="col-sm-12 post-text">
-                <p><%= post.body %></p>
-              </div>
-            </div>
-          </div>
-
-          <footer class="subpage-footer">
-            <div class="container-fluid">
-              <% if post.likes.find_by_user_id(current_user.id).nil? %>
-                <%= link_to "Like(#{post.likes.count})", user_post_likes_path(current_user, post), method: :post %>
-              <% else %>
-                <%= link_to "Unlike(#{post.likes.count})", user_post_like_path(current_user, post, Like.where(user_id: current_user.id, likeable_id: post.id, likeable_type: 'Post').first.id), method: :delete %>
-              <% end %>
-
-              <% if current_user == @user %>
-                <%= link_to 'Delete', user_post_path(@user, post), class: 'pull-right', method: :delete %>
-              <% end %>
-
-              <% if current_user %>
-                <%= form_for [current_user, post, post.comments.build] do |comment_fields| %>
-                  <%= comment_fields.label :body, class: 'sr-only' %>
-                  <%= comment_fields.text_area :body %>
-                  <%= comment_fields.hidden_field :commentable_id, value: post.id %>
-                  <%= comment_fields.hidden_field :commentable_type, value: 'Post' %>
-                  <%= comment_fields.submit 'Comment', class: 'btn btn-primary pull-right' %>
-                <% end %>
-              <% end %>
-
-              <div class='container-fluid'>
-                <% post.comments.each do |comment| %>
-                  <% if comment.author %>
-                    <p><%= comment.author.profile.full_name %>: <%= comment.body %></p>
-                  <% end %>
-                  
-                  <% if comment.likes.find_by_user_id(current_user.id).nil? && comment.author_id %>
-                    <%= link_to "Like(#{comment.likes.count})", user_post_comment_likes_path(current_user, post, comment), method: :post %>
-                  <% elsif comment.author_id %>
-                    <%= link_to "Unlike(#{comment.likes.count})", user_post_comment_like_path(current_user, post, comment, comment.likes.find_by_user_id(current_user.id)), method: :delete %>
-                  <% end %>
-                  
-                  <% if comment.author_id == current_user.id %>
-                    <%= link_to 'Delete', user_post_comment_path(current_user, post, comment), method: :delete %>
-                  <% end %>
-                <% end %>
-              </div>
-            </div>
-          </footer>
+          <%= render partial: 'post', locals: { user: @user, post: post } %>
         <% end %>
 
       </section>
@@ -193,9 +137,9 @@
 
 <% unless current_user == @user %>
   <% if current_user.friends.include?(@user) %>
-    <%= link_to "Unfriend #{@user.profile.first_name}", friending_path(@user), method: :delete %>
+    <%= link_to "Unfriend #{@user.profile.first_name}", friending_path(@user), method: :delete, remote: true %>
   <% else %>
-    <%= link_to "Friend #{@user.profile.first_name}", friendings_path(id: @user.id), method: :post %> 
+    <%= link_to "Friend #{@user.profile.first_name}", friendings_path(id: @user.id), method: :post, remote: true %> 
   <% end %>
 <% end %>
 

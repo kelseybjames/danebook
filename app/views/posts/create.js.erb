@@ -1,4 +1,4 @@
-var $posts = $('.posts');
-var currentPost = '<%= j(@post.body) %>';
-
+var $posts = $('#posts');
+var currentPost = '<%= j(render partial: "post", locals: { user: @user, post: @post }) %>';
 $posts.prepend(currentPost);
+$('#new-post').val('');
