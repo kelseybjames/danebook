@@ -24,6 +24,11 @@
           <li>
             <%= link_to 'Friends', user_friendings_path(@user), class: 'btn btn-link' %>
           </li>
+          <% if current_user == @user %>
+            <li>
+              <%= link_to 'Newsfeed', user_newsfeed_path(@user), class: 'btn btn-link' %>
+            </li>
+          <% end %>
         </ul>
 
       </div>
@@ -142,14 +147,3 @@
     <%= link_to "Friend #{@user.profile.first_name}", friendings_path(id: @user.id), method: :post, remote: true %> 
   <% end %>
 <% end %>
-
-<!-- Friends box -->
-<section class="row">
-  <div class='col-sm-6'>
-
-    <% if current_user == @user %>
-      <%= link_to 'Newsfeed', user_newsfeed_path(current_user) %>
-    <% end %>
-
-  </div>
-</section>
