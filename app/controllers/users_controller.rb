@@ -8,7 +8,11 @@ class UsersController < ApplicationController
   end
 
   def new
-    @user = User.new
+    if current_user
+      redirect_to user_posts_path(current_user)
+    else
+      @user = User.new
+    end
   end
 
   def create
