@@ -1,4 +1,7 @@
 class FriendingsController < ApplicationController
+  def index
+    @friends = current_user.friends
+  end
 
   def create
     friending_recipient = User.find(params[:id])

@@ -4,9 +4,9 @@
     <%= image_tag @photo.image.url(:medium) %>
 
     <% if @photo.likes.find_by_user_id(current_user.id).nil? %>
-      <p><%= link_to "Like(#{@photo.likes.count})", user_photo_likes_path(current_user, @photo), method: :post, remote: true %></p>
+      <p><%= link_to "Like(#{@photo.likes.count})", user_photo_likes_path(current_user, @photo), method: :post %></p>
     <% else %>
-      <p><%= link_to "Unlike(#{@photo.likes.count})", user_photo_like_path(current_user, @photo, Like.where(user_id: current_user.id, likeable_id: @photo.id, likeable_type: 'Photo').first.id), method: :delete, remote: true %></p>
+      <p><%= link_to "Unlike(#{@photo.likes.count})", user_photo_like_path(current_user, @photo, Like.where(user_id: current_user.id, likeable_id: @photo.id, likeable_type: 'Photo').first.id), method: :delete %></p>
     <% end %>
     
     <% if @user.id == current_user.id %>
@@ -22,14 +22,14 @@
     <% if current_user %>
       <%= form_for [current_user, @photo, @photo.comments.build], remote: true do |comment_fields| %>
         <%= comment_fields.label :body, class: 'sr-only' %>
-        <%= comment_fields.text_area :body, id: 'new-comment' %>
+        <%= comment_fields.text_area :body, class: 'new-comment' %>
         <%= comment_fields.hidden_field :commentable_id, value: @photo.id %>
         <%= comment_fields.hidden_field :commentable_type, value: 'Photo' %>
         <%= comment_fields.submit 'Comment' %>
       <% end %>
     <% end %>
     
-    <div class='container-fluid comment-list' id='comments'>
+    <div class='container-fluid comment-list' id='comments-<%= @photo.id %>'>
       <% @photo.comments.order('created_at DESC').each do |comment| %>
         <%= render partial: 'comment', locals: { user: @user, parent: @photo, comment: comment } %>
       <% end %>

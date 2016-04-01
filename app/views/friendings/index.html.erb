@@ -1,0 +1,3 @@
+<% @friends.each do |friend| %>
+  <%= link_to friend.profile.full_name, user_posts_path(friend) %>
+<% end %>

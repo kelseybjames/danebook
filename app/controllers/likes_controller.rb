@@ -7,13 +7,12 @@ class LikesController < ApplicationController
     @like[:user_id] = current_user.id
     @like[:likeable_id] = @parent.id
     @like[:likeable_type] = @parent.class.to_s
-    respond_to do |format|
-      if @like.save
-        format.js {}
-      else
-        format.js {}
-      end
+    if @like.save
+      flash[:success] = "#{@parent.class.to_s} liked"
+    else
+      flash[:error] = "#{@parent.class.to_s} like failed"
     end
+    redirect_to request.referrer
   end
 
   def destroy

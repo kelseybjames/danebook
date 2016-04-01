@@ -4,9 +4,9 @@
   <% end %>
 
   <% if comment.likes.find_by_user_id(current_user.id).nil? && comment.author_id %>
-    <%= link_to "Like(#{comment.likes.count})", polymorphic_url([current_user, parent, comment, @like]), method: :post, remote: true, class: 'comment-liking' %>
+    <%= link_to "Like(#{comment.likes.count})", polymorphic_url([current_user, parent, comment, @like]), method: :post, class: 'comment-liking' %>
   <% elsif comment.author_id %>
-    <%= link_to "Unlike(#{comment.likes.count})", polymorphic_url([current_user, parent, comment, comment.likes.find_by_user_id(current_user.id)]), method: :delete, remote: true, class: 'comment-liking' %>
+    <%= link_to "Unlike(#{comment.likes.count})", polymorphic_url([current_user, parent, comment, comment.likes.find_by_user_id(current_user.id)]), method: :delete, class: 'comment-liking' %>
   <% end %>
 
   <% if comment.author_id == current_user.id %>

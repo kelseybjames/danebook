@@ -1,4 +1,6 @@
-var $comments = $('#comments');
+var parentID = <%= @parent.id %>;
+var commentIDString = '#comments-' + parentID;
+var $comments = $(commentIDString);
 var currentComment = '<%= j(render partial: "comment", locals: { user: @user, parent: @parent, comment: @comment }) %>';
 $comments.prepend(currentComment);
-$('#new-comment').val('');
+$('.new-comment').val('');

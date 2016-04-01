@@ -9,14 +9,11 @@ class CommentsController < ApplicationController
   def create
     @comment = Comment.new(whitelisted_comment_params)
     @comment[:author_id] = current_user.id
-    # byebug
     respond_to do |format|
       if @comment.save
         format.js {}
-        flash.now[:success] = 'Commented'
       else
         format.js {}
-        flash.now[:error] = 'Failed to comment'
       end
     end
   end
@@ -26,10 +23,8 @@ class CommentsController < ApplicationController
     respond_to do |format|
       if @comment.delete
         format.js {}
-        flash.now[:success] = 'Destroyed'
       else
         format.js {}
-        flash.now[:error] = 'Failed to destroy'
       end
     end
   end

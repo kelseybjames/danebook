@@ -3,12 +3,12 @@
     <div class="container-fluid">
       <p class="col-sm-10">About</p>
       <% if @user.id == current_user.id %>
-        <a class="btn btn-primary pull-right col-sm-2" href="<%= edit_user_profile_path(@user.id) %>" role="button">Edit your Profile</a>
+        <%= link_to 'Edit your Profile', edit_user_profile_path(@user.id), class: 'btn btn-primary pull-right col-sm-2' %>
       <% else %>
         <% if current_user.friended_users.pluck(:id).include?(@user.id) %>
-          <%= link_to "Unfriend #{@user.profile.first_name}", friending_path(@user), method: :delete %>
+          <%= link_to "Unfriend #{@user.profile.first_name}", friending_path(@user), method: :delete, class: 'btn btn-primary pull-right col-sm-2' %>
         <% else  %>
-          <%= link_to "Friend #{@user.profile.first_name}", friendings_path(id: @user.id), method: :post %>
+          <%= link_to "Friend #{@user.profile.first_name}", friendings_path(id: @user.id), method: :post, class: 'btn btn-primary pull-right col-sm-2' %>
         <% end %>
       <% end %>
     </div>

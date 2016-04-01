@@ -2,7 +2,7 @@ var $parent = $("[data-<%= j(@like.likeable_type.downcase) %>-id=<%= j(@parent.i
 console.log($parent);
 var likeNumber = $parent.text().split('(')[1][0];
 console.log('Likes: ' + likeNumber);
-likeNumber++;
+likeNumber--;
 console.log('New likes: ' + likeNumber);
-var newLikeLink = '<%= j(link_to "Unlike()", polymorphic_url([current_user, @parent, @parent.likes.find_by_user_id(current_user.id)]), method: :delete, remote: true, class: "comment-liking") %>';
+var newLikeLink = '<%= j(link_to "Like()", polymorphic_url([current_user, @parent]), remote: true, class: "comment-liking") %>';
 $parent.replaceWith(newLikeLink);
