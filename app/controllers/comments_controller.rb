@@ -12,8 +12,10 @@ class CommentsController < ApplicationController
     respond_to do |format|
       if @comment.save
         format.js {}
+        format.html { redirect_to request.referrer }
       else
         format.js {}
+        format.html { redirect_to request.referrer }
       end
     end
   end

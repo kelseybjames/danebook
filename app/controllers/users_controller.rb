@@ -56,7 +56,7 @@ class UsersController < ApplicationController
 
   def newsfeed
     @user = User.find(params[:user_id])
-    @newsfeed = @user.newsfeed
+    @newsfeed = @user.newsfeed.order('id DESC')
   end
 
   private

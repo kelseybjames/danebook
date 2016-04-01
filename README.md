@@ -26,4 +26,6 @@ Go to the Photos link to see all the photos you've uploaded as well as a form to
 
 If you view another user's profile, you will see a link to either friend or defriend them, based on your current friendship status.
 
+You can visit your newsfeed, where you can see all your friends' posts in one place and access the same liking and commenting features.
+
 Enjoy!

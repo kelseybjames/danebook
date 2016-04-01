@@ -36,7 +36,7 @@
         <% end %>
       <% end %>
 
-      <% newsfeed_post.comments.each do |comment| %>
+      <% newsfeed_post.comments.order('id DESC').each do |comment| %>
         <% if comment.author %>
           <p><strong><%= comment.author.profile.full_name %>: </strong><%= comment.body %></p>
         <% end %>

@@ -12,8 +12,10 @@ class PostsController < ApplicationController
     respond_to do |format|
       if @post.save
         format.js {}
+        format.html { redirect_to request.referrer }
       else
         format.js {}
+        format.html { redirect_to request.referrer }
       end
     end
   end
